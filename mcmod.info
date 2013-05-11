@@ -1,21 +1,21 @@
-[
 {
-  "modid": "BaconPancakes",
-  "name": "BaconPancakes",
-  "description": "Bacon pancakes makin bacon pancakes.",
-  "version": "1.0",
-  "mcversion": "1.5.2",
-  "url": "",
-  "updateUrl": "",
-  "authors": [
-    "sct"
-  ],
-  "credits": "",
-  "logoFile": "",
-  "screenshots": [
-  ],
-  "parent":"",
-  "dependencies": [
-  ]
+    "modinfoversion": 2,
+    "modlist": [
+        {
+            "modid": "BaconPancakes",
+            "name": "BaconPancakes",
+            "description": "Bacon pancakes makin bacon pancakes",
+            "version": "1.0",
+            "mcversion": "1.5.2",
+            "url": "",
+            "updateUrl": "",
+            "authors": [
+                "sct"
+            ],
+            "credits": "By just sct",
+            "requiredMods": [
+                "Forge"
+            ]
+        }
+    ]
 }
-]
