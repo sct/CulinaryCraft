@@ -24,12 +24,14 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid = "BaconPancakes", name = "Bacon Pancakes", useMetadata = true, version = "1.0")
+@Mod(modid = "BaconPancakes", name = "Bacon Pancakes", useMetadata = true, version = BaconPancakes.version)
 @NetworkMod(serverSideRequired = false, clientSideRequired = true)
 public class BaconPancakes {
 	
 	@Instance("BaconPancakes")
 	public static BaconPancakes instance;
+	
+	public static final String version = "1.5.2R1.0";
 	
 	@SidedProxy(clientSide="net.sctgaming.baconpancakes.ClientProxy", serverSide="net.sctgaming.baconpancakes.CommonProxy")
 	public static CommonProxy proxy;
