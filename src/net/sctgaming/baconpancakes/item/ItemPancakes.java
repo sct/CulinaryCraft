@@ -12,9 +12,9 @@ import net.sctgaming.baconpancakes.renderer.PancakeRenderer;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class Pancakes extends ItemFood {
+public class ItemPancakes extends ItemFood {
 
-	public Pancakes(int id) {
+	public ItemPancakes(int id) {
 		super(id, 4, true);
 		setMaxStackSize(64);
 		setCreativeTab(BaconPancakesCreativeTab.tab);

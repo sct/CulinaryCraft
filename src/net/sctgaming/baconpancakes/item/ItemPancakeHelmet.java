@@ -12,11 +12,11 @@ import net.sctgaming.baconpancakes.model.ModelPancakeHelmet;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class PancakeHelmet extends ItemArmor {
+public class ItemPancakeHelmet extends ItemArmor {
 	
 	private final static ModelPancakeHelmet mph = new ModelPancakeHelmet();
 
-	public PancakeHelmet(int id) {
+	public ItemPancakeHelmet(int id) {
 		super(id, EnumArmorMaterial.DIAMOND, 3, 0);
 		setCreativeTab(BaconPancakesCreativeTab.tab);
 		setUnlocalizedName("sctpancakehelmet");

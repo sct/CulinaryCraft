@@ -1,10 +1,11 @@
 package net.sctgaming.baconpancakes.tile;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.item.ItemStack;
+import net.sctgaming.baconpancakes.item.ItemKitchenTool;
 import net.sctgaming.baconpancakes.recipe.OvenRecipe;
 import net.sctgaming.baconpancakes.recipe.RecipeManager;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 
 public class TileEntityOven extends TileEntityMachineInventory {
@@ -36,7 +37,7 @@ public class TileEntityOven extends TileEntityMachineInventory {
 				ItemStack result = currentRecipe.getResult();
 				for (int i = 0; i < 9; i++) {
 					ItemStack item = this.getStackInSlot(i);
-					if (item != null && item.stackSize == 1)
+					if (item != null && item.stackSize == 1 && !(item.getItem() instanceof ItemKitchenTool))
 						this.setInventorySlotContents(i, null);
 					else if (item != null && item.stackSize > 1) {
 						item.stackSize--;

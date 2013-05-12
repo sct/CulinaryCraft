@@ -4,7 +4,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
-import net.sctgaming.baconpancakes.item.Pancakes;
+import net.sctgaming.baconpancakes.item.ItemPancakes;
 import net.sctgaming.baconpancakes.model.ModelPancakeHelmet;
 
 public class PancakeRenderer implements IItemRenderer {
@@ -13,7 +13,7 @@ public class PancakeRenderer implements IItemRenderer {
 	
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
-		return item.getItem() instanceof Pancakes && type.equals(ItemRenderType.EQUIPPED);
+		return item.getItem() instanceof ItemPancakes && type.equals(ItemRenderType.EQUIPPED);
 	}
 
 	@Override

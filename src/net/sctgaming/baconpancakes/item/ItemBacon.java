@@ -1,23 +1,24 @@
 package net.sctgaming.baconpancakes.item;
 
 import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.item.ItemFood;
 import net.sctgaming.baconpancakes.gui.BaconPancakesCreativeTab;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemHandMixer extends ItemKitchenTool {
+public class ItemBacon extends ItemFood {
 
-	public ItemHandMixer(int id) {
-		super(id);
-		setMaxStackSize(1);
+	public ItemBacon(int id) {
+		super(id, 4, true);
+		setMaxStackSize(64);
 		setCreativeTab(BaconPancakesCreativeTab.tab);
-		setUnlocalizedName("sct.handmixer");
+		setUnlocalizedName("sctbacon");
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister) {
-		itemIcon = iconRegister.registerIcon("handMixer");
+		itemIcon = iconRegister.registerIcon("bacon");
 	}
 
 }
