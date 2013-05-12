@@ -84,7 +84,7 @@ public class BlockOven extends BlockContainer {
 		if (tileEntity == null || player.isSneaking()) {
 			return false;
 		}
-		if (BasicUtils.isHoldingMixer(player)) {
+		if (BasicUtils.isHoldingMixer(player) && ((TileEntityOven) tileEntity).canRotate()) {
 			((TileEntityOven) tileEntity).rotate();
 		} else {
 			player.openGui(BaconPancakes.instance, 0, world, x, y, z);

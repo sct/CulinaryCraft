@@ -2,6 +2,7 @@ package net.sctgaming.baconpancakes;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.sctgaming.baconpancakes.block.BlockKitchenTile;
 import net.sctgaming.baconpancakes.block.BlockOven;
 import net.sctgaming.baconpancakes.gui.GuiHandler;
@@ -9,6 +10,7 @@ import net.sctgaming.baconpancakes.item.Bacon;
 import net.sctgaming.baconpancakes.item.ItemHandMixer;
 import net.sctgaming.baconpancakes.item.PancakeHelmet;
 import net.sctgaming.baconpancakes.item.Pancakes;
+import net.sctgaming.baconpancakes.recipe.RecipeManager;
 import net.sctgaming.baconpancakes.tile.TileEntityOven;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
@@ -68,6 +70,8 @@ public class BaconPancakes {
 		
 		LanguageRegistry.addName(kitchenTile, "Kitchen Tile");
 		LanguageRegistry.addName(blockOven, "Oven");
+		
+		RecipeManager.addShapelessOvenRecipe(new ItemStack(bacon), new Object[]{Item.egg});
 		
 		NetworkRegistry.instance().registerGuiHandler(this, new GuiHandler());
 	}

@@ -10,8 +10,11 @@ import org.lwjgl.opengl.GL11;
 
 public class GuiOven extends GuiContainer {
 
+	TileEntityOven te;
+	
 	public GuiOven(InventoryPlayer invPlayer, TileEntityOven te) {
 		super(new ContainerOven(invPlayer, te));
+		this.te = te;
 	}
 	
 	@Override
@@ -27,6 +30,11 @@ public class GuiOven extends GuiContainer {
 		int x = (width - xSize) / 2;
 		int y = (height - ySize) / 2;
 		this.drawTexturedModalRect(x, y, 0, 0, xSize, ySize);
+		
+		int cookTime = te.getCookProgressScaled(48);
+		if (cookTime > 0) {
+			drawTexturedModalRect(x + 67, y + 33, 176, 0, 48 - cookTime, 19);
+		}
 	}
 
 }

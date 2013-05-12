@@ -3,7 +3,9 @@ package net.sctgaming.baconpancakes.gui.container;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
+import net.minecraft.inventory.SlotFurnace;
 import net.minecraft.item.ItemStack;
 import net.sctgaming.baconpancakes.tile.TileEntityOven;
 
@@ -16,9 +18,11 @@ public class ContainerOven extends Container {
 		
 		for (int x = 0; x < 3; x++) {
 			for (int y = 0; y < 3; y++) {
-				addSlotToContainer(new Slot(tileEntity, y + x * 3, 8 + y * 18, 17 + x * 18));
+				addSlotToContainer(new OvenSlot(tileEntity, y + x * 3, 8 + y * 18, 17 + x * 18));
 			}
 		}
+		
+		this.addSlotToContainer(new SlotFurnace(invPlayer.player, (IInventory) tileEntity, 9, 124, 35));
 		
 		bindPlayerInventory(invPlayer);
 	}
@@ -49,7 +53,7 @@ public class ContainerOven extends Container {
 			ItemStack stackInSlot = slotObject.getStack();
 			stack = stackInSlot.copy();
 			
-			if (slot < 9) {
+			if (slot < 8) {
 				if (!this.mergeItemStack(stackInSlot, 9, 45, true)) {
 					return null;
 				}
