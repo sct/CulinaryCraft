@@ -1,32 +1,28 @@
 package net.sctgaming.baconpancakes.gui.container;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotFurnace;
 import net.minecraft.item.ItemStack;
-import net.sctgaming.baconpancakes.tile.TileEntityMachinePowered;
 import net.sctgaming.baconpancakes.tile.TileEntityOven;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
-public class ContainerOven extends Container {
-	
-	protected TileEntityOven tileEntity;
+public class ContainerOven extends ContainerMachinePowered {
 	
 	public ContainerOven(InventoryPlayer invPlayer, TileEntityOven te) {
-		tileEntity = te;
+		super(te);
 		
 		for (int x = 0; x < 3; x++) {
 			for (int y = 0; y < 3; y++) {
-				addSlotToContainer(new OvenSlot(tileEntity, y + x * 3, 8 + y * 18, 17 + x * 18));
+				addSlotToContainer(new OvenSlot(te, y + x * 3, 8 + y * 18, 17 + x * 18));
 			}
 		}
 		
-		this.addSlotToContainer(new SlotFurnace(invPlayer.player, (IInventory) tileEntity, 9, 124, 35));
+		this.addSlotToContainer(new SlotFurnace(invPlayer.player, (IInventory) te, 9, 124, 35));
 		
 		bindPlayerInventory(invPlayer);
 	}
@@ -36,8 +32,7 @@ public class ContainerOven extends Container {
 		super.detectAndSendChanges();
 		
 		for (int i = 0; i < crafters.size(); i++) {
-			((ICrafting)crafters.get(i)).sendProgressBarUpdate(this, 0, ((TileEntityMachinePowered)tileEntity).getEnergyStored());
-			((ICrafting)crafters.get(i)).sendProgressBarUpdate(this, 1, tileEntity.getCookTime());
+			((ICrafting)crafters.get(i)).sendProgressBarUpdate(this, 0, ((TileEntityOven)te).getCookTime());
 		}
 	}
 	
@@ -47,15 +42,13 @@ public class ContainerOven extends Container {
 		super.updateProgressBar(var, value);
 		
 		if (var == 0) {
-			((TileEntityMachinePowered)tileEntity).setEnergyStored(value);
-		} else if (var == 1) {
-			tileEntity.setCookTime(value);
+			((TileEntityOven) te).setCookTime(value);
 		}
 	}
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		return tileEntity.isUseableByPlayer(player);
+		return ((TileEntityOven) te).isUseableByPlayer(player);
 	}
 	
 	protected void bindPlayerInventory(InventoryPlayer invPlayer) {
