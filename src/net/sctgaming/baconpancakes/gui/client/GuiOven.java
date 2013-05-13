@@ -1,6 +1,5 @@
 package net.sctgaming.baconpancakes.gui.client;
 
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.StatCollector;
 import net.sctgaming.baconpancakes.gui.container.ContainerOven;
@@ -8,7 +7,7 @@ import net.sctgaming.baconpancakes.tile.TileEntityOven;
 
 import org.lwjgl.opengl.GL11;
 
-public class GuiOven extends GuiContainer {
+public class GuiOven extends GuiMachine {
 
 	TileEntityOven te;
 	int x = 0;
@@ -44,6 +43,10 @@ public class GuiOven extends GuiContainer {
 		}
 	}
 	
-	
+	protected void drawTooltips(int mouseX, int mouseY) {
+		if(isPointInRegion(154, 7, 14, 42, mouseX, mouseY)) {
+			drawBarTooltip("Energy", "MJ", te.getEnergyStored(), te.getEnergyStoredMax(), mouseX, mouseY);
+		}
+	}
 
 }

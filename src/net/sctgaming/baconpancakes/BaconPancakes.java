@@ -3,6 +3,7 @@ package net.sctgaming.baconpancakes;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.sctgaming.baconpancakes.block.BlockDehydrator;
 import net.sctgaming.baconpancakes.block.BlockKitchenTile;
 import net.sctgaming.baconpancakes.block.BlockOven;
 import net.sctgaming.baconpancakes.gui.GuiHandler;
@@ -51,6 +52,7 @@ public class BaconPancakes {
 	
 	public final static Block kitchenTile = new BlockKitchenTile(2300);
 	public final static Block blockOven = new BlockOven(2301);
+	public final static Block dehydrator = new BlockDehydrator(2302);
 	
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event) {
@@ -69,6 +71,7 @@ public class BaconPancakes {
 		
 		GameRegistry.registerBlock(kitchenTile, "sctkitchentile");
 		GameRegistry.registerBlock(blockOven, "sct.oven");
+		GameRegistry.registerBlock(dehydrator, "sct.dehydrator");
 		
 		GameRegistry.registerTileEntity(TileEntityOven.class, "entityOven");
 		
@@ -82,6 +85,7 @@ public class BaconPancakes {
 		
 		LanguageRegistry.addName(kitchenTile, "Kitchen Tile");
 		LanguageRegistry.addName(blockOven, "Oven");
+		LanguageRegistry.addName(dehydrator, "Dehydrator");
 		
 		RecipeManager.addShapelessOvenRecipe(new ItemStack(bacon), new Object[]{rawBacon,fryingPan});
 		RecipeManager.addShapelessOvenRecipe(new ItemStack(cookedEgg), new Object[]{Item.egg,fryingPan});

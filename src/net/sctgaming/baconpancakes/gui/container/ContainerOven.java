@@ -32,7 +32,7 @@ public class ContainerOven extends ContainerMachinePowered {
 		super.detectAndSendChanges();
 		
 		for (int i = 0; i < crafters.size(); i++) {
-			((ICrafting)crafters.get(i)).sendProgressBarUpdate(this, 0, ((TileEntityOven)te).getCookTime());
+			((ICrafting)crafters.get(i)).sendProgressBarUpdate(this, 1, ((TileEntityOven)te).getCookTime());
 		}
 	}
 	
@@ -41,7 +41,7 @@ public class ContainerOven extends ContainerMachinePowered {
 	public void updateProgressBar(int var, int value) {
 		super.updateProgressBar(var, value);
 		
-		if (var == 0) {
+		if (var == 1) {
 			((TileEntityOven) te).setCookTime(value);
 		}
 	}
