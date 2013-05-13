@@ -8,13 +8,13 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 
-public class TileEntityOven extends TileEntityMachineInventory {
+public class TileEntityOven extends TileEntityMachinePowered {
 	
 	private int cookTime = 0;
 	private OvenRecipe currentRecipe = null;
 	
 	public TileEntityOven() {
-		super();
+		super(10);
 	}
 	
 	@Override
@@ -31,7 +31,7 @@ public class TileEntityOven extends TileEntityMachineInventory {
 	public void updateEntity() {
 		super.updateEntity();
 		
-		if (currentRecipe != null && cookTime > 0) {
+		if (isPowered() && currentRecipe != null && cookTime > 0) {
 			cookTime--;
 			if (cookTime == 1) {
 				ItemStack result = currentRecipe.getResult();
@@ -46,6 +46,7 @@ public class TileEntityOven extends TileEntityMachineInventory {
 				this.setInventorySlotContents(9, result);
 				cookTime = 0;
 				currentRecipe = null;
+				setWorking(false);
 			}
 		}
 	}
@@ -70,11 +71,13 @@ public class TileEntityOven extends TileEntityMachineInventory {
 			if (currentRecipe == null || !currentRecipe.equals(newRecipe)) {
 				currentRecipe = newRecipe;
 				setCookTime(200);
+				setWorking(true);
 			}
 			
 		} else if (getCookTime() > 0 && newRecipe == null) {
 			setCookTime(0);
 			currentRecipe = null;
+			setWorking(false);
 		}
 	}
 
@@ -86,6 +89,16 @@ public class TileEntityOven extends TileEntityMachineInventory {
 	@Override
 	int getInventoryHeight() {
 		return 3;
+	}
+
+	@Override
+	public int getEnergyStoredMax() {
+		return 500;
+	}
+	
+	@Override
+	public int getIdleTicksMax() {
+		return 20;
 	}
 
 

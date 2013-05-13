@@ -1,12 +1,16 @@
 package net.sctgaming.baconpancakes.gui.container;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotFurnace;
 import net.minecraft.item.ItemStack;
+import net.sctgaming.baconpancakes.tile.TileEntityMachinePowered;
 import net.sctgaming.baconpancakes.tile.TileEntityOven;
 
 public class ContainerOven extends Container {
@@ -25,6 +29,28 @@ public class ContainerOven extends Container {
 		this.addSlotToContainer(new SlotFurnace(invPlayer.player, (IInventory) tileEntity, 9, 124, 35));
 		
 		bindPlayerInventory(invPlayer);
+	}
+	
+	@Override
+	public void detectAndSendChanges() {
+		super.detectAndSendChanges();
+		
+		for (int i = 0; i < crafters.size(); i++) {
+			((ICrafting)crafters.get(i)).sendProgressBarUpdate(this, 0, ((TileEntityMachinePowered)tileEntity).getEnergyStored());
+			((ICrafting)crafters.get(i)).sendProgressBarUpdate(this, 1, tileEntity.getCookTime());
+		}
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void updateProgressBar(int var, int value) {
+		super.updateProgressBar(var, value);
+		
+		if (var == 0) {
+			((TileEntityMachinePowered)tileEntity).setEnergyStored(value);
+		} else if (var == 1) {
+			tileEntity.setCookTime(value);
+		}
 	}
 
 	@Override

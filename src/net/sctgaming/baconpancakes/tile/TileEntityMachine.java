@@ -11,6 +11,8 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 public abstract class TileEntityMachine extends TileEntity {
 	
 	private ForgeDirection forwardDirection;
+	private boolean working = false;
+	private int idleTicks = 0;
 	
 	public TileEntityMachine() {
 		forwardDirection = ForgeDirection.NORTH;
@@ -50,6 +52,16 @@ public abstract class TileEntityMachine extends TileEntity {
 		}
 	}
 	
+	public void setIdleTicks(int idleTicks) {
+		this.idleTicks = idleTicks;
+	}
+	
+	public int getIdleTicks() {
+		return idleTicks;
+	}
+	
+	public abstract int getIdleTicksMax();
+	
 	public int getRotatedSide(int side) {
 		if (side < 2) {
 			return side;
@@ -76,6 +88,15 @@ public abstract class TileEntityMachine extends TileEntity {
 		}
 		
 		return out;
+	}
+	
+	public boolean isWorking() {
+		return working;
+	}
+	
+	public void setWorking(boolean working) {
+		this.idleTicks = getIdleTicksMax();
+		this.working = working;
 	}
 	
 	@Override
