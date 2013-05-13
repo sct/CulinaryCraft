@@ -1,22 +1,22 @@
 package net.sctgaming.baconpancakes.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
-import net.sctgaming.baconpancakes.gui.BaconPancakesCreativeTab;
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
+import net.sctgaming.baconpancakes.tile.TileEntityDehydrator;
+import net.sctgaming.baconpancakes.tile.TileEntityMachine;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockDehydrator extends Block {
+public class BlockDehydrator extends BlockMachineInventory {
 	
 	private Icon[] icons = new Icon[6];
+	private Icon[] iconsWorking = new Icon[6];
 
 	public BlockDehydrator(int id) {
-		super(id, Material.rock);
-		setHardness(0.5F);
-		setStepSound(soundMetalFootstep);
-		setCreativeTab(BaconPancakesCreativeTab.tab);
+		super(id);
 		setUnlocalizedName("sct.dehydrator");
 	}
 	
@@ -29,6 +29,31 @@ public class BlockDehydrator extends Block {
 		icons[3] = ir.registerIcon("tile.sct.dehydrator.idle.side");
 		icons[4] = ir.registerIcon("tile.sct.dehydrator.idle.side");
 		icons[5] = ir.registerIcon("tile.sct.dehydrator.idle.side");
+		
+		iconsWorking[0] = ir.registerIcon("tile.sct.dehydrator.active.side");
+		iconsWorking[1] = ir.registerIcon("tile.sct.dehydrator.active.top");
+		iconsWorking[2] = ir.registerIcon("tile.sct.dehydrator.active.front");
+		iconsWorking[3] = ir.registerIcon("tile.sct.dehydrator.active.side");
+		iconsWorking[4] = ir.registerIcon("tile.sct.dehydrator.active.side");
+		iconsWorking[5] = ir.registerIcon("tile.sct.dehydrator.active.side");
+	}
+	
+	@Override
+	public Icon getBlockTexture(IBlockAccess iBlockAccess, int x,
+			int y, int z, int side) {
+		boolean isWorking = false;
+		TileEntity te = iBlockAccess.getBlockTileEntity(x, y, z);
+		
+		if (te instanceof TileEntityMachine) {
+			side = ((TileEntityMachine) te).getRotatedSide(side);
+			isWorking = ((TileEntityMachine)te).isWorking();
+		}
+		return this.getIcon(side, isWorking);
+	}
+	
+	public Icon getIcon(int side, boolean isWorking) {
+		if (isWorking) return iconsWorking[side];
+		return icons[side];
 	}
 	
 	@Override
@@ -43,6 +68,11 @@ public class BlockDehydrator extends Block {
 			}
 		}
 		return icons[side];
+	}
+
+	@Override
+	public TileEntity createNewTileEntity(World world) {
+		return new TileEntityDehydrator();
 	}
 
 }

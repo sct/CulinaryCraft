@@ -95,19 +95,29 @@ public abstract class TileEntityMachine extends TileEntity {
 	}
 	
 	public void setWorking(boolean working) {
-		this.idleTicks = getIdleTicksMax();
+		if (worldObj != null && !worldObj.isRemote && this.working != working) {
+			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+			PacketDispatcher.sendPacketToAllAround(xCoord, yCoord, zCoord, 50, worldObj.provider.dimensionId, getDescriptionPacket());
+			this.working = working;
+		}	
+	}
+	
+	public void setClientWorking(boolean working) {
 		this.working = working;
+		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
 	
 	@Override
 	public void onDataPacket(INetworkManager net, Packet132TileEntityData pkt) {
 		rotateDirectlyTo(pkt.customParam1.getInteger("rotation"));
+		setClientWorking(pkt.customParam1.getBoolean("working"));
 	}
 	
 	@Override
 	public Packet getDescriptionPacket() {
 		NBTTagCompound data = new NBTTagCompound();
 		data.setInteger("rotation", getDirectionFacing().ordinal());
+		data.setBoolean("working", isWorking());
 		Packet132TileEntityData packet = new Packet132TileEntityData(xCoord, yCoord, zCoord, 0, data);
 		return packet;
 	}

@@ -49,6 +49,7 @@ public abstract class TileEntityMachinePowered extends TileEntityMachineInventor
 		} else if (isPowered() && isWorking()) {
 			setIdleTicks(getIdleTicksMax());
 			energyStored -= energyCost;
+			setIdleTicks(getIdleTicksMax());
 		}
 	}
 	

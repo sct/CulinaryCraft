@@ -1,12 +1,11 @@
 package net.sctgaming.baconpancakes.gui.container;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.tileentity.TileEntity;
 import net.sctgaming.baconpancakes.tile.TileEntityMachinePowered;
-import net.sctgaming.baconpancakes.tile.TileEntityOven;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public abstract class ContainerMachinePowered extends Container {
 	
@@ -22,7 +21,6 @@ public abstract class ContainerMachinePowered extends Container {
 		
 		for (int i = 0; i < crafters.size(); i++) {
 			((ICrafting)crafters.get(i)).sendProgressBarUpdate(this, 0, ((TileEntityMachinePowered)te).getEnergyStored());
-			((ICrafting)crafters.get(i)).sendProgressBarUpdate(this, 1, ((TileEntityOven)te).getCookTime());
 		}
 	}
 	
@@ -33,8 +31,6 @@ public abstract class ContainerMachinePowered extends Container {
 		
 		if (var == 0) {
 			((TileEntityMachinePowered)te).setEnergyStored(value);
-		} else if (var == 1) {
-			((TileEntityOven) te).setCookTime(value);
 		}
 	}
 	

@@ -82,12 +82,12 @@ public class TileEntityOven extends TileEntityMachinePowered {
 	}
 
 	@Override
-	int getInventoryWidth() {
+	public int getInventoryWidth() {
 		return 3;
 	}
 
 	@Override
-	int getInventoryHeight() {
+	public int getInventoryHeight() {
 		return 3;
 	}
 

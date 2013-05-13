@@ -14,7 +14,9 @@ import net.sctgaming.baconpancakes.item.ItemHandMixer;
 import net.sctgaming.baconpancakes.item.ItemPancakeHelmet;
 import net.sctgaming.baconpancakes.item.ItemPancakes;
 import net.sctgaming.baconpancakes.item.ItemRawBacon;
+import net.sctgaming.baconpancakes.item.ItemSalt;
 import net.sctgaming.baconpancakes.recipe.RecipeManager;
+import net.sctgaming.baconpancakes.tile.TileEntityDehydrator;
 import net.sctgaming.baconpancakes.tile.TileEntityOven;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
@@ -49,6 +51,7 @@ public class BaconPancakes {
 	public final static Item fryingPan = new ItemFryingPan(23004);
 	public final static Item rawBacon = new ItemRawBacon(23005);
 	public final static Item cookedEgg = new ItemCookedEgg(23006);
+	public final static Item salt = new ItemSalt(23007);
 	
 	public final static Block kitchenTile = new BlockKitchenTile(2300);
 	public final static Block blockOven = new BlockOven(2301);
@@ -68,12 +71,14 @@ public class BaconPancakes {
 		GameRegistry.registerItem(fryingPan, "sct.fryingpan");
 		GameRegistry.registerItem(rawBacon, "sct.rawbacon");
 		GameRegistry.registerItem(cookedEgg, "sct.cookedegg");
+		GameRegistry.registerItem(salt, "sct.salt");
 		
 		GameRegistry.registerBlock(kitchenTile, "sctkitchentile");
 		GameRegistry.registerBlock(blockOven, "sct.oven");
 		GameRegistry.registerBlock(dehydrator, "sct.dehydrator");
 		
 		GameRegistry.registerTileEntity(TileEntityOven.class, "entityOven");
+		GameRegistry.registerTileEntity(TileEntityDehydrator.class, "entityDehydrator");
 		
 		LanguageRegistry.addName(pancakes, "Pancakes");
 		LanguageRegistry.addName(bacon, "Bacon");
@@ -82,6 +87,7 @@ public class BaconPancakes {
 		LanguageRegistry.addName(fryingPan, "Frying Pan");
 		LanguageRegistry.addName(rawBacon, "Raw Bacon");
 		LanguageRegistry.addName(cookedEgg, "Cooked Egg");
+		LanguageRegistry.addName(salt, "Salt");
 		
 		LanguageRegistry.addName(kitchenTile, "Kitchen Tile");
 		LanguageRegistry.addName(blockOven, "Oven");

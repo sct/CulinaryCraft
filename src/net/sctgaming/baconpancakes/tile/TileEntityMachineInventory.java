@@ -56,7 +56,7 @@ public abstract class TileEntityMachineInventory extends TileEntityMachine imple
 
 	@Override
 	public String getInvName() {
-		return "sct.tile.oven";
+		return "";
 	}
 
 	@Override
@@ -98,9 +98,13 @@ public abstract class TileEntityMachineInventory extends TileEntityMachine imple
 		return inventory;
 	}
 	
-	abstract int getInventoryWidth();
+	public int getInventoryWidth() {
+		return 1;
+	}
 	
-	abstract int getInventoryHeight();
+	public int getInventoryHeight() {
+		return 1;
+	}
 	
 	public ItemStack getStackInRowAndColumn(int x, int y)
     {
