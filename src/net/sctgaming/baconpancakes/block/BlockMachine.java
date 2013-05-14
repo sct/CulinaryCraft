@@ -2,8 +2,11 @@ package net.sctgaming.baconpancakes.block;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.sctgaming.baconpancakes.BaconPancakes;
 import net.sctgaming.baconpancakes.gui.BaconPancakesCreativeTab;
@@ -34,6 +37,44 @@ public abstract class BlockMachine extends BlockContainer {
 			player.openGui(BaconPancakes.instance, 0, world, x, y, z);
 		}
 		return true;
+	}
+	
+	@Override
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLiving entity, ItemStack stack)
+	{
+		if(entity == null)
+		{
+			return;
+		}
+		TileEntity te = world.getBlockTileEntity(x, y, z);
+		if(stack.getTagCompound() != null)
+		{
+			stack.getTagCompound().setInteger("x", x);
+			stack.getTagCompound().setInteger("y", y);
+			stack.getTagCompound().setInteger("z", z);
+			te.readFromNBT(stack.getTagCompound());
+		}
+
+		if(te instanceof TileEntityMachine && ((TileEntityMachine)te).canRotate())
+		{
+			int facing = MathHelper.floor_double((entity.rotationYaw * 4F) / 360F + 0.5D) & 3;
+			if(facing == 0)
+			{
+				((TileEntityMachine)te).rotateDirectlyTo(3);
+			}
+			else if(facing == 1)
+			{
+				((TileEntityMachine)te).rotateDirectlyTo(4);
+			}
+			else if(facing == 2)
+			{
+				((TileEntityMachine)te).rotateDirectlyTo(2);
+			}
+			else if(facing == 3)
+			{
+				((TileEntityMachine)te).rotateDirectlyTo(5);
+			}
+		}
 	}
 
 }

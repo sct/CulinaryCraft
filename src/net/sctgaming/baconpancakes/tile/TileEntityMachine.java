@@ -90,6 +90,10 @@ public abstract class TileEntityMachine extends TileEntity {
 		return out;
 	}
 	
+	public ForgeDirection getForwardDirection() {
+		return forwardDirection;
+	}
+	
 	public boolean isWorking() {
 		return working;
 	}

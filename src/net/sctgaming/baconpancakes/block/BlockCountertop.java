@@ -5,28 +5,29 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.sctgaming.baconpancakes.tile.TileEntityOven;
+import net.sctgaming.baconpancakes.tile.TileEntityCountertop;
+import net.sctgaming.baconpancakes.tile.TileEntityMachine;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockOven extends BlockMachineInventory {
+public class BlockCountertop extends BlockMachineInventory {
 	
 	private Icon[] icons = new Icon[6];
 
-	public BlockOven(int id) {
+	public BlockCountertop(int id) {
 		super(id);
-		setUnlocalizedName("sct.oven");
+		setUnlocalizedName("sct.countertop");
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister ir) {
-		icons[0] = ir.registerIcon("tile.sct.oven.idle.side");
-		icons[1] = ir.registerIcon("tile.sct.oven.idle.top");
-		icons[2] = ir.registerIcon("tile.sct.oven.idle.side");
-		icons[3] = ir.registerIcon("tile.sct.oven.idle.front");
-		icons[4] = ir.registerIcon("tile.sct.oven.idle.side");
-		icons[5] = ir.registerIcon("tile.sct.oven.idle.side");
+		icons[0] = ir.registerIcon("tile.sct.countertop.idle.side");
+		icons[1] = ir.registerIcon("tile.sct.countertop.idle.top");
+		icons[2] = ir.registerIcon("tile.sct.countertop.idle.side");
+		icons[3] = ir.registerIcon("tile.sct.countertop.idle.front");
+		icons[4] = ir.registerIcon("tile.sct.countertop.idle.side");
+		icons[5] = ir.registerIcon("tile.sct.countertop.idle.side");
 	}
 	
 	@Override
@@ -35,8 +36,8 @@ public class BlockOven extends BlockMachineInventory {
 			int y, int z, int side) {
 		int md = iBlockAccess.getBlockMetadata(x, y, z);
 		TileEntity te = iBlockAccess.getBlockTileEntity(x, y, z);
-		if (te instanceof TileEntityOven) {
-			side = ((TileEntityOven) te).getRotatedSide(side);
+		if (te instanceof TileEntityMachine) {
+			side = ((TileEntityMachine) te).getRotatedSide(side);
 		}
 		return this.getIcon(side, md);
 	}
@@ -46,10 +47,15 @@ public class BlockOven extends BlockMachineInventory {
 	public Icon getIcon(int side, int meta) {
 		return icons[side];
 	}
+	
+	@Override
+	public boolean renderAsNormalBlock() {
+		return true;
+	}
 
 	@Override
 	public TileEntity createNewTileEntity(World world) {
-		return new TileEntityOven();
+		return new TileEntityCountertop();
 	}
 
 }

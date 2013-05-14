@@ -3,6 +3,7 @@ package net.sctgaming.baconpancakes;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.sctgaming.baconpancakes.block.BlockCountertop;
 import net.sctgaming.baconpancakes.block.BlockDehydrator;
 import net.sctgaming.baconpancakes.block.BlockKitchenTile;
 import net.sctgaming.baconpancakes.block.BlockOven;
@@ -18,6 +19,7 @@ import net.sctgaming.baconpancakes.item.ItemRawBacon;
 import net.sctgaming.baconpancakes.item.ItemSalt;
 import net.sctgaming.baconpancakes.item.seed.ItemBlackPeppercorn;
 import net.sctgaming.baconpancakes.recipe.RecipeManager;
+import net.sctgaming.baconpancakes.tile.TileEntityCountertop;
 import net.sctgaming.baconpancakes.tile.TileEntityDehydrator;
 import net.sctgaming.baconpancakes.tile.TileEntityOven;
 import cpw.mods.fml.common.Mod;
@@ -58,8 +60,9 @@ public class BaconPancakes {
 	public final static Block kitchenTile = new BlockKitchenTile(2300);
 	public final static Block blockOven = new BlockOven(2301);
 	public final static Block dehydrator = new BlockDehydrator(2302);
+	public final static Block countertop = new BlockCountertop(2304);
 	
-	public final static Block cropBlackPepper = new CropBlackPepper(2304);
+	public final static Block cropBlackPepper = new CropBlackPepper(2320);
 	
 	public final static Item seedBlackPeppercorn = new ItemBlackPeppercorn(23008);
 	
@@ -82,6 +85,7 @@ public class BaconPancakes {
 		GameRegistry.registerBlock(kitchenTile, "sctkitchentile");
 		GameRegistry.registerBlock(blockOven, "sct.oven");
 		GameRegistry.registerBlock(dehydrator, "sct.dehydrator");
+		GameRegistry.registerBlock(countertop, "sct.countertop");
 		
 		GameRegistry.registerBlock(cropBlackPepper, "sct.crop.blackpepper");
 		
@@ -89,6 +93,7 @@ public class BaconPancakes {
 		
 		GameRegistry.registerTileEntity(TileEntityOven.class, "entityOven");
 		GameRegistry.registerTileEntity(TileEntityDehydrator.class, "entityDehydrator");
+		GameRegistry.registerTileEntity(TileEntityCountertop.class, "entityCountertop");
 		
 		LanguageRegistry.addName(pancakes, "Pancakes");
 		LanguageRegistry.addName(bacon, "Bacon");
@@ -109,6 +114,8 @@ public class BaconPancakes {
 		RecipeManager.addShapelessOvenRecipe(new ItemStack(cookedEgg), new Object[]{Item.egg,fryingPan});
 		
 		NetworkRegistry.instance().registerGuiHandler(this, new GuiHandler());
+		
+		proxy.init();
 	}
 	
 	@PostInit

@@ -25,8 +25,8 @@ public class BlockDehydrator extends BlockMachineInventory {
 	public void registerIcons(IconRegister ir) {
 		icons[0] = ir.registerIcon("tile.sct.dehydrator.idle.side");
 		icons[1] = ir.registerIcon("tile.sct.dehydrator.idle.top");
-		icons[2] = ir.registerIcon("tile.sct.dehydrator.idle.front");
-		icons[3] = ir.registerIcon("tile.sct.dehydrator.idle.side");
+		icons[2] = ir.registerIcon("tile.sct.dehydrator.idle.side");
+		icons[3] = ir.registerIcon("tile.sct.dehydrator.idle.front");
 		icons[4] = ir.registerIcon("tile.sct.dehydrator.idle.side");
 		icons[5] = ir.registerIcon("tile.sct.dehydrator.idle.side");
 		
