@@ -1,9 +1,12 @@
 package sct.culinarycraft.gui;
 
+import sct.culinarycraft.gui.client.GuiCountertop;
 import sct.culinarycraft.gui.client.GuiDehydrator;
 import sct.culinarycraft.gui.client.GuiOven;
+import sct.culinarycraft.gui.container.ContainerCountertop;
 import sct.culinarycraft.gui.container.ContainerDehydrator;
 import sct.culinarycraft.gui.container.ContainerOven;
+import sct.culinarycraft.tile.TileEntityCountertop;
 import sct.culinarycraft.tile.TileEntityDehydrator;
 import sct.culinarycraft.tile.TileEntityOven;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,6 +24,8 @@ public class GuiHandler implements IGuiHandler {
 			return new ContainerOven(player.inventory, (TileEntityOven) tileEntity);
 		} else if (tileEntity instanceof TileEntityDehydrator) {
 			return new ContainerDehydrator(player.inventory, (TileEntityDehydrator) tileEntity);
+		} else if (tileEntity instanceof TileEntityCountertop) {
+			return new ContainerCountertop(player.inventory, (TileEntityCountertop) tileEntity);
 		}
 		return null;
 	}
@@ -33,6 +38,8 @@ public class GuiHandler implements IGuiHandler {
 			return new GuiOven(player.inventory, (TileEntityOven) tileEntity);
 		} else if (tileEntity instanceof TileEntityDehydrator) {
 			return new GuiDehydrator(player.inventory, (TileEntityDehydrator) tileEntity);
+		} else if (tileEntity instanceof TileEntityCountertop) {
+			return new GuiCountertop(player.inventory, (TileEntityCountertop) tileEntity);
 		}
 		return null;
 	}

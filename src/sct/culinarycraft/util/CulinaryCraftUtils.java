@@ -4,7 +4,7 @@ import sct.culinarycraft.item.ItemHandMixer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 
-public class BaconPancakesUtils {
+public class CulinaryCraftUtils {
 	
 	public static boolean isHoldingMixer(EntityPlayer player)
 	{

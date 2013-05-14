@@ -1,11 +1,11 @@
 <project name="2263" default="install" basedir=".">
 	<property environment="env" />
 
-	<property name="project.name" value="BaconPancakes" />
+	<property name="project.name" value="CulinaryCraft" />
 	<property name="src.dir" value="src" />
 	<property name="resources.dir" value="src" />
-	<property name="verclass.dir" value="net/sctgaming/baconpancakes" />
-	<property name="verclass.name" value="BaconPancakes.java"/>
+	<property name="verclass.dir" value="sct/culinarycraft" />
+	<property name="verclass.name" value="CulinaryCraft.java"/>
 
 	<property name="minecraft.version" value="1.5.2" />
 	<property name="forge.forgeversion" value="7.8.0" />

@@ -1,6 +1,6 @@
 package sct.culinarycraft.item;
 
-import sct.culinarycraft.gui.BaconPancakesCreativeTab;
+import sct.culinarycraft.gui.CulinaryCraftCreativeTab;
 import sct.culinarycraft.model.ModelPancakeHelmet;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -18,7 +18,7 @@ public class ItemPancakeHelmet extends ItemArmor {
 
 	public ItemPancakeHelmet(int id) {
 		super(id, EnumArmorMaterial.DIAMOND, 3, 0);
-		setCreativeTab(BaconPancakesCreativeTab.tab);
+		setCreativeTab(CulinaryCraftCreativeTab.tab);
 		setUnlocalizedName("sctpancakehelmet");
 	}
 	

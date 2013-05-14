@@ -1,6 +1,6 @@
 package sct.culinarycraft.item;
 
-import sct.culinarycraft.gui.BaconPancakesCreativeTab;
+import sct.culinarycraft.gui.CulinaryCraftCreativeTab;
 import sct.culinarycraft.renderer.PancakeRenderer;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -17,7 +17,7 @@ public class ItemPancakes extends ItemFood {
 	public ItemPancakes(int id) {
 		super(id, 4, true);
 		setMaxStackSize(64);
-		setCreativeTab(BaconPancakesCreativeTab.tab);
+		setCreativeTab(CulinaryCraftCreativeTab.tab);
 		setUnlocalizedName("sctpancakes");
 		MinecraftForgeClient.registerItemRenderer(this.itemID, new PancakeRenderer());
 	}

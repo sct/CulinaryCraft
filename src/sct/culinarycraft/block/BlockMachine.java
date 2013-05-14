@@ -1,9 +1,9 @@
 package sct.culinarycraft.block;
 
 import sct.culinarycraft.CulinaryCraft;
-import sct.culinarycraft.gui.BaconPancakesCreativeTab;
+import sct.culinarycraft.gui.CulinaryCraftCreativeTab;
 import sct.culinarycraft.tile.TileEntityMachine;
-import sct.culinarycraft.util.BaconPancakesUtils;
+import sct.culinarycraft.util.CulinaryCraftUtils;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLiving;
@@ -19,7 +19,7 @@ public abstract class BlockMachine extends BlockContainer {
 		super(id, Material.rock);
 		setHardness(0.5F);
 		setStepSound(soundMetalFootstep);
-		setCreativeTab(BaconPancakesCreativeTab.tab);
+		setCreativeTab(CulinaryCraftCreativeTab.tab);
 	}
 	
 	@Override
@@ -31,7 +31,7 @@ public abstract class BlockMachine extends BlockContainer {
 		if (tileEntity == null || player.isSneaking()) {
 			return false;
 		}
-		if (BaconPancakesUtils.isHoldingMixer(player) && ((TileEntityMachine) tileEntity).canRotate()) {
+		if (CulinaryCraftUtils.isHoldingMixer(player) && ((TileEntityMachine) tileEntity).canRotate()) {
 			((TileEntityMachine) tileEntity).rotate();
 		} else {
 			player.openGui(CulinaryCraft.instance, 0, world, x, y, z);

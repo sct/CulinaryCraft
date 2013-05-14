@@ -1,54 +1,28 @@
 package sct.culinarycraft.gui.container;
 
-import sct.culinarycraft.tile.TileEntityOven;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotFurnace;
 import net.minecraft.item.ItemStack;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import sct.culinarycraft.tile.TileEntityCountertop;
 
-public class ContainerOven extends ContainerMachinePowered {
-	
-	public ContainerOven(InventoryPlayer invPlayer, TileEntityOven te) {
+public class ContainerCountertop extends ContainerMachinePowered {
+
+	public ContainerCountertop(InventoryPlayer invPlayer, TileEntityCountertop te) {
 		super(te);
 		
-		for (int x = 0; x < 3; x++) {
-			for (int y = 0; y < 3; y++) {
-				addSlotToContainer(new SlotOven(te, y + x * 3, 8 + y * 18, 17 + x * 18));
-			}
-		}
-		
-		this.addSlotToContainer(new SlotFurnace(invPlayer.player, (IInventory) te, 9, 124, 35));
+		addSlotToContainer(new SlotCountertop(te, 0, 26, 34));
+		addSlotToContainer(new Slot(te, 1, 80, 34));
+		this.addSlotToContainer(new SlotFurnace(invPlayer.player, (IInventory) te, 2, 115, 34));
 		
 		bindPlayerInventory(invPlayer);
-	}
-	
-	@Override
-	public void detectAndSendChanges() {
-		super.detectAndSendChanges();
-		
-		for (int i = 0; i < crafters.size(); i++) {
-			((ICrafting)crafters.get(i)).sendProgressBarUpdate(this, 1, ((TileEntityOven)te).getCookTime());
-		}
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void updateProgressBar(int var, int value) {
-		super.updateProgressBar(var, value);
-		
-		if (var == 1) {
-			((TileEntityOven) te).setCookTime(value);
-		}
 	}
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		return ((TileEntityOven) te).isUseableByPlayer(player);
+		return ((TileEntityCountertop) te).isUseableByPlayer(player);
 	}
 	
 	protected void bindPlayerInventory(InventoryPlayer invPlayer) {
@@ -73,10 +47,10 @@ public class ContainerOven extends ContainerMachinePowered {
 			stack = stackInSlot.copy();
 			
 			if (slot < 8) {
-				if (!this.mergeItemStack(stackInSlot, 9, 45, true)) {
+				if (!this.mergeItemStack(stackInSlot, 1, 45, true)) {
 					return null;
 				}
-			} else if (!this.mergeItemStack(stackInSlot, 0, 9, false)) {
+			} else if (!this.mergeItemStack(stackInSlot, 0, 1, false)) {
 				return null;
 			}
 			

@@ -1,6 +1,6 @@
 package sct.culinarycraft.item;
 
-import sct.culinarycraft.gui.BaconPancakesCreativeTab;
+import sct.culinarycraft.gui.CulinaryCraftCreativeTab;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -11,7 +11,7 @@ public class ItemSalt extends Item {
 	public ItemSalt(int id) {
 		super(id);
 		setMaxStackSize(64);
-		setCreativeTab(BaconPancakesCreativeTab.tab);
+		setCreativeTab(CulinaryCraftCreativeTab.tab);
 		setUnlocalizedName("sct.salt");
 	}
 	

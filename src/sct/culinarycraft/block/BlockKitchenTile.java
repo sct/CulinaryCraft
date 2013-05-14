@@ -1,6 +1,6 @@
 package sct.culinarycraft.block;
 
-import sct.culinarycraft.gui.BaconPancakesCreativeTab;
+import sct.culinarycraft.gui.CulinaryCraftCreativeTab;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -15,7 +15,7 @@ public class BlockKitchenTile extends Block {
 		setResistance(10.0F);
 		setStepSound(soundStoneFootstep);
 		setUnlocalizedName("sctkitchentile");
-		setCreativeTab(BaconPancakesCreativeTab.tab);
+		setCreativeTab(CulinaryCraftCreativeTab.tab);
 	}
 	
 	@Override
