@@ -2,9 +2,9 @@
     "modinfoversion": 2,
     "modlist": [
         {
-            "modid": "BaconPancakes",
-            "name": "BaconPancakes",
-            "description": "Bacon pancakes makin bacon pancakes",
+            "modid": "CulinaryCraft",
+            "name": "Culinary Craft",
+            "description": "Make things because YOU ARE A CHEF",
             "version": "1.0",
             "mcversion": "1.5.2",
             "url": "",
