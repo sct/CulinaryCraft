@@ -8,7 +8,7 @@ import net.minecraft.world.World;
 import net.sctgaming.baconpancakes.BaconPancakes;
 import net.sctgaming.baconpancakes.gui.BaconPancakesCreativeTab;
 import net.sctgaming.baconpancakes.tile.TileEntityMachine;
-import net.sctgaming.baconpancakes.util.BasicUtils;
+import net.sctgaming.baconpancakes.util.BaconPancakesUtils;
 
 public abstract class BlockMachine extends BlockContainer {
 
@@ -28,7 +28,7 @@ public abstract class BlockMachine extends BlockContainer {
 		if (tileEntity == null || player.isSneaking()) {
 			return false;
 		}
-		if (BasicUtils.isHoldingMixer(player) && ((TileEntityMachine) tileEntity).canRotate()) {
+		if (BaconPancakesUtils.isHoldingMixer(player) && ((TileEntityMachine) tileEntity).canRotate()) {
 			((TileEntityMachine) tileEntity).rotate();
 		} else {
 			player.openGui(BaconPancakes.instance, 0, world, x, y, z);

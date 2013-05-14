@@ -6,6 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.sctgaming.baconpancakes.block.BlockDehydrator;
 import net.sctgaming.baconpancakes.block.BlockKitchenTile;
 import net.sctgaming.baconpancakes.block.BlockOven;
+import net.sctgaming.baconpancakes.block.crop.CropBlackPepper;
 import net.sctgaming.baconpancakes.gui.GuiHandler;
 import net.sctgaming.baconpancakes.item.ItemBacon;
 import net.sctgaming.baconpancakes.item.ItemCookedEgg;
@@ -15,6 +16,7 @@ import net.sctgaming.baconpancakes.item.ItemPancakeHelmet;
 import net.sctgaming.baconpancakes.item.ItemPancakes;
 import net.sctgaming.baconpancakes.item.ItemRawBacon;
 import net.sctgaming.baconpancakes.item.ItemSalt;
+import net.sctgaming.baconpancakes.item.seed.ItemBlackPeppercorn;
 import net.sctgaming.baconpancakes.recipe.RecipeManager;
 import net.sctgaming.baconpancakes.tile.TileEntityDehydrator;
 import net.sctgaming.baconpancakes.tile.TileEntityOven;
@@ -57,6 +59,10 @@ public class BaconPancakes {
 	public final static Block blockOven = new BlockOven(2301);
 	public final static Block dehydrator = new BlockDehydrator(2302);
 	
+	public final static Block cropBlackPepper = new CropBlackPepper(2304);
+	
+	public final static Item seedBlackPeppercorn = new ItemBlackPeppercorn(23008);
+	
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event) {
 		
@@ -77,6 +83,10 @@ public class BaconPancakes {
 		GameRegistry.registerBlock(blockOven, "sct.oven");
 		GameRegistry.registerBlock(dehydrator, "sct.dehydrator");
 		
+		GameRegistry.registerBlock(cropBlackPepper, "sct.crop.blackpepper");
+		
+		GameRegistry.registerItem(seedBlackPeppercorn, "sct.blackpeppercorn");
+		
 		GameRegistry.registerTileEntity(TileEntityOven.class, "entityOven");
 		GameRegistry.registerTileEntity(TileEntityDehydrator.class, "entityDehydrator");
 		
@@ -88,10 +98,12 @@ public class BaconPancakes {
 		LanguageRegistry.addName(rawBacon, "Raw Bacon");
 		LanguageRegistry.addName(cookedEgg, "Cooked Egg");
 		LanguageRegistry.addName(salt, "Salt");
+		LanguageRegistry.addName(seedBlackPeppercorn, "Black Peppercorn");
 		
 		LanguageRegistry.addName(kitchenTile, "Kitchen Tile");
 		LanguageRegistry.addName(blockOven, "Oven");
 		LanguageRegistry.addName(dehydrator, "Dehydrator");
+		LanguageRegistry.addName(cropBlackPepper, "Black Pepper");
 		
 		RecipeManager.addShapelessOvenRecipe(new ItemStack(bacon), new Object[]{rawBacon,fryingPan});
 		RecipeManager.addShapelessOvenRecipe(new ItemStack(cookedEgg), new Object[]{Item.egg,fryingPan});
