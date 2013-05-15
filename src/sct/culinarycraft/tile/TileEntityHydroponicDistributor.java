@@ -31,6 +31,7 @@ public class TileEntityHydroponicDistributor extends TileEntityMachine implement
 	@Override
 	public void updateEntity() {
 		super.updateEntity();
+		
 		if (tank.getLiquid() != null && tank.getLiquid().amount > 10) {
 			activeState = true;
 			tank.drain(1, true);
@@ -55,22 +56,37 @@ public class TileEntityHydroponicDistributor extends TileEntityMachine implement
 
 	public void findConnectedResevoirs(int x, int y, int z) {
 		Set<Vec3Hash> resevoirs = new HashSet<Vec3Hash>();
-		connectedResevoirs = getAdjacentResevoirBlocks(resevoirs, x, y, z);
+		resevoirs = getAdjacentResevoirBlocks(resevoirs, x, y, z);
+		
+		for (Vec3Hash vec : connectedResevoirs) {
+			if (!resevoirs.contains(vec)) {
+				TileEntity te = worldObj.getBlockTileEntity((int) vec.xCoord, (int) vec.yCoord, (int) vec.zCoord);
+				if (te != null && te instanceof TileEntityHydroponicResevoir) {
+					((TileEntityHydroponicResevoir) te).disconnect();
+					worldObj.setBlockMetadataWithNotify((int) vec.xCoord, (int) vec.yCoord, (int) vec.zCoord, 0, 2);
+					System.out.println("A resevoir lost connection and has been removed");
+				}
+			}
+		}
+		
+		connectedResevoirs = resevoirs;
 	}
 	
 	public Set<Vec3Hash> getAdjacentResevoirBlocks(Set<Vec3Hash> resevoirs, int xPos, int yPos, int zPos) {
 		int blockId = 0;
 		for (int x = -1; x <= 1; x++) {
 			for (int z = -1; z <=1; z++) {
-				if (!(x == 0 && z == 0)) {
+				if ((x == 0 || z == 0)  && !(x == 0 && z == 0)) {
 					blockId = worldObj.getBlockId(xPos + x, yPos, zPos + z);
 					Vec3Hash blockVec = new Vec3Hash(xPos + x, yPos, zPos + z);
 					if (blockId == CulinaryCraft.resevoir.blockID && !resevoirs.contains(blockVec)) {
 						TileEntity te = worldObj.getBlockTileEntity(xPos + x, yPos, zPos + z);
-						if (te != null && te instanceof TileEntityHydroponicResevoir && !((TileEntityHydroponicResevoir) te).isNetworked()) {
+						if (te != null && te instanceof TileEntityHydroponicResevoir 
+								&& (!((TileEntityHydroponicResevoir) te).isNetworked() 
+										|| ((TileEntityHydroponicResevoir) te).getDistributor().equals(new Vec3Hash(xCoord, yCoord, zCoord)))) {
 							resevoirs.add(blockVec);
 							((TileEntityHydroponicResevoir) te).setDistributor(xCoord, yCoord, zCoord);
-							
+							System.out.println("A resevoir was found and is being added to the network yo!");
 							getAdjacentResevoirBlocks(resevoirs, xPos + x, yPos, zPos + z);
 						}
 						
@@ -84,6 +100,11 @@ public class TileEntityHydroponicDistributor extends TileEntityMachine implement
 	
 	public void addResevoir(int x, int y, int z) {
 		addResevoir(new Vec3Hash(x, y, z));
+	}
+	
+	public void addResevoirWithScan(int x, int y, int z) {
+		addResevoir(new Vec3Hash(x, y, z));
+		findConnectedResevoirs(xCoord, yCoord, zCoord);
 	}
 	
 	public void addResevoir(Vec3Hash vec) {
