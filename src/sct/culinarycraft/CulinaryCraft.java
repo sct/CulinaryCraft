@@ -8,6 +8,7 @@ import sct.culinarycraft.block.BlockDehydrator;
 import sct.culinarycraft.block.BlockKitchenTile;
 import sct.culinarycraft.block.BlockOven;
 import sct.culinarycraft.block.crop.CropBlackPepper;
+import sct.culinarycraft.block.crop.CropCoffea;
 import sct.culinarycraft.gui.GuiHandler;
 import sct.culinarycraft.item.ItemBacon;
 import sct.culinarycraft.item.ItemCookedEgg;
@@ -20,6 +21,7 @@ import sct.culinarycraft.item.ItemRawBacon;
 import sct.culinarycraft.item.ItemSalt;
 import sct.culinarycraft.item.ItemStandMixer;
 import sct.culinarycraft.item.seed.ItemBlackPeppercorn;
+import sct.culinarycraft.item.seed.ItemCoffeaSeed;
 import sct.culinarycraft.net.ClientPacketHandler;
 import sct.culinarycraft.recipe.RecipeManager;
 import sct.culinarycraft.tile.TileEntityCountertop;
@@ -71,8 +73,10 @@ public class CulinaryCraft {
 	public final static Block countertop = new BlockCountertop(2304);
 	
 	public final static Block cropBlackPepper = new CropBlackPepper(2320);
+	public final static Block cropCoffea = new CropCoffea(2321);
 	
 	public final static Item seedBlackPeppercorn = new ItemBlackPeppercorn(23100);
+	public final static Item seedCoffeaSeed = new ItemCoffeaSeed(23101);
 	
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event) {
@@ -98,8 +102,10 @@ public class CulinaryCraft {
 		GameRegistry.registerBlock(countertop, "sct.countertop");
 		
 		GameRegistry.registerBlock(cropBlackPepper, "sct.crop.blackpepper");
+		GameRegistry.registerBlock(cropCoffea, "sct.coffea");
 		
 		GameRegistry.registerItem(seedBlackPeppercorn, "sct.blackpeppercorn");
+		GameRegistry.registerItem(seedCoffeaSeed, "sct.coffeaseed");
 		
 		GameRegistry.registerTileEntity(TileEntityOven.class, "entityOven");
 		GameRegistry.registerTileEntity(TileEntityDehydrator.class, "entityDehydrator");
@@ -123,6 +129,9 @@ public class CulinaryCraft {
 		LanguageRegistry.addName(countertop, "Countertop");
 		
 		LanguageRegistry.addName(cropBlackPepper, "Black Pepper");
+		
+		LanguageRegistry.addName(seedCoffeaSeed, "Coffea Seed");
+		LanguageRegistry.addName(cropCoffea, "Coffea Plant");
 		
 		RecipeManager.addShapelessOvenRecipe(new ItemStack(bacon), new Object[]{rawBacon,fryingPan});
 		RecipeManager.addShapelessOvenRecipe(new ItemStack(cookedEgg), new Object[]{Item.egg,fryingPan});
