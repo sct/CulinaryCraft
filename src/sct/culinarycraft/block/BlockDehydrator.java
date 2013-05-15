@@ -17,7 +17,7 @@ public class BlockDehydrator extends BlockMachineInventory {
 
 	public BlockDehydrator(int id) {
 		super(id);
-		setUnlocalizedName("sct.dehydrator");
+		setUnlocalizedName("culinary.machine.dehydrator");
 	}
 	
 	@Override
@@ -32,8 +32,8 @@ public class BlockDehydrator extends BlockMachineInventory {
 		
 		iconsWorking[0] = ir.registerIcon("tile.sct.dehydrator.active.side");
 		iconsWorking[1] = ir.registerIcon("tile.sct.dehydrator.active.top");
-		iconsWorking[2] = ir.registerIcon("tile.sct.dehydrator.active.front");
-		iconsWorking[3] = ir.registerIcon("tile.sct.dehydrator.active.side");
+		iconsWorking[2] = ir.registerIcon("tile.sct.dehydrator.active.side");
+		iconsWorking[3] = ir.registerIcon("tile.sct.dehydrator.active.front");
 		iconsWorking[4] = ir.registerIcon("tile.sct.dehydrator.active.side");
 		iconsWorking[5] = ir.registerIcon("tile.sct.dehydrator.active.side");
 	}

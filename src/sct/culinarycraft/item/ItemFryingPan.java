@@ -11,7 +11,7 @@ public class ItemFryingPan extends ItemKitchenTool {
 		super(id);
 		setMaxStackSize(1);
 		setCreativeTab(CulinaryCraftCreativeTab.tab);
-		setUnlocalizedName("sct.fryingpan");
+		setUnlocalizedName("culinary.fryingpan");
 	}
 	
 	@Override

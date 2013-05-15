@@ -8,7 +8,7 @@ import sct.culinarycraft.util.Vec3Hash;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityHydroponicResevoir extends TileEntity {
+public class TileEntityHydroponicReservoir extends TileEntity {
 	
 	private Vec3Hash distributor = null;
 	
@@ -20,13 +20,17 @@ public class TileEntityHydroponicResevoir extends TileEntity {
 		return distributor;
 	}
 	
+	public int getGrowthChances() {
+		return 1;
+	}
+	
 	public void findDistributor() {
 		for (int x = -1; x <= 1; x++) {
 			for (int z = -1; z <=1; z++) {
 				if ((x == 0 || z == 0) && !(x == 0 && z == 0)) {
 					TileEntity te = worldObj.getBlockTileEntity(xCoord + x, yCoord, zCoord + z);
-					if (te != null && te instanceof TileEntityHydroponicResevoir) {
-						Vec3Hash vec = ((TileEntityHydroponicResevoir) te).getDistributor();
+					if (te != null && te instanceof TileEntityHydroponicReservoir) {
+						Vec3Hash vec = ((TileEntityHydroponicReservoir) te).getDistributor();
 						if (vec != null) {
 							TileEntity dist = worldObj.getBlockTileEntity((int) vec.xCoord, (int) vec.yCoord, (int) vec.zCoord);
 							if (dist != null && dist instanceof TileEntityHydroponicDistributor) {
@@ -70,12 +74,12 @@ public class TileEntityHydroponicResevoir extends TileEntity {
 				TileEntity te = worldObj.getBlockTileEntity((int) distributor.xCoord, (int) distributor.yCoord, (int) distributor.zCoord);
 				for (Vec3Hash vec : closed) {
 					TileEntity resevoir = worldObj.getBlockTileEntity((int) vec.xCoord, (int) vec.yCoord, (int) vec.zCoord);
-					if (resevoir != null && resevoir instanceof TileEntityHydroponicResevoir) {
+					if (resevoir != null && resevoir instanceof TileEntityHydroponicReservoir) {
 						if (te != null && te instanceof TileEntityHydroponicDistributor) {
 							((TileEntityHydroponicDistributor) te).disconnectNode(vec);
 						}
 						
-						((TileEntityHydroponicResevoir) resevoir).disconnect();
+						((TileEntityHydroponicReservoir) resevoir).disconnect();
 						
 						if (worldObj.getBlockMetadata((int) vec.xCoord, (int) vec.yCoord, (int) vec.zCoord) == 1) {
 							worldObj.setBlockMetadataWithNotify((int) vec.xCoord, (int) vec.yCoord, (int) vec.zCoord, 0, 2);
@@ -100,7 +104,7 @@ public class TileEntityHydroponicResevoir extends TileEntity {
 					if ((x == 0 || z == 0) && !(x == 0 && z == 0)) {
 						blockId = worldObj.getBlockId((int) curNode.xCoord + x, (int) curNode.yCoord, (int) curNode.zCoord + z);
 						Vec3Hash blockVec = new Vec3Hash((int) curNode.xCoord + x, (int) curNode.yCoord, (int) curNode.zCoord + z);
-						if ((blockId == CulinaryCraft.resevoir.blockID || blockId == CulinaryCraft.distributor.blockID) 
+						if ((blockId == CulinaryCraft.reservoir.blockID || blockId == CulinaryCraft.distributor.blockID) 
 								&& !closed.contains(blockVec)) {
 							if (!open.contains(blockVec)) {
 								open.add(blockVec);

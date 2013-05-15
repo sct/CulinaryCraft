@@ -11,7 +11,7 @@ public class ItemStandMixer extends ItemKitchenTool {
 		super(id);
 		setMaxStackSize(1);
 		setCreativeTab(CulinaryCraftCreativeTab.tab);
-		setUnlocalizedName("sct.standmixer");
+		setUnlocalizedName("culinary.standmixer");
 	}
 	
 	@Override

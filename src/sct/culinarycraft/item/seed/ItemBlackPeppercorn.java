@@ -15,7 +15,7 @@ public class ItemBlackPeppercorn extends ItemSeeds implements IPlantable {
 		super(id, CulinaryCraft.cropBlackPepper.blockID, Block.tilledField.blockID);
 		setMaxStackSize(64);
 		setCreativeTab(CulinaryCraftCreativeTab.tab);
-		setUnlocalizedName("sct.blackpeppercorn");
+		setUnlocalizedName("culinary.seed.blackpeppercorn");
 	}
 	
 	@Override

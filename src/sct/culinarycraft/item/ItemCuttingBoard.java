@@ -11,7 +11,7 @@ public class ItemCuttingBoard extends ItemKitchenTool {
 		super(id);
 		setMaxStackSize(1);
 		setCreativeTab(CulinaryCraftCreativeTab.tab);
-		setUnlocalizedName("sct.cuttinboard");
+		setUnlocalizedName("culinary.cuttingboard");
 	}
 	
 	@Override

@@ -22,7 +22,7 @@ public class TileEntityHydroponicDistributor extends TileEntityMachine implement
 	private int tick = 0;
 	private boolean activeState = true;
 	
-	private Set<Vec3Hash> connectedResevoirs = new HashSet<Vec3Hash>();
+	private Set<Vec3Hash> connectedReservoirs = new HashSet<Vec3Hash>();
 	
 	public TileEntityHydroponicDistributor() {
 		tank = new LiquidTank(4 * LiquidContainerRegistry.BUCKET_VOLUME);
@@ -32,22 +32,28 @@ public class TileEntityHydroponicDistributor extends TileEntityMachine implement
 	public void updateEntity() {
 		super.updateEntity();
 		
-		if (tank.getLiquid() != null && tank.getLiquid().amount > 10) {
+		if (tank.getLiquid() != null && tank.getLiquid().amount > 2 * connectedReservoirs.size()) {
 			activeState = true;
-			tank.drain(1, true);
+			tick++;
 			
-			for (Vec3Hash vec : connectedResevoirs) {
+			if (tick >= 20) {
+				tank.drain(1 * connectedReservoirs.size(), true);
+				tick = 0;
+			}
+			
+			
+			for (Vec3Hash vec : connectedReservoirs) {
 				TileEntity te = worldObj.getBlockTileEntity((int) vec.xCoord, (int) vec.yCoord, (int) vec.zCoord);
-				if (te != null && te instanceof TileEntityHydroponicResevoir 
+				if (te != null && te instanceof TileEntityHydroponicReservoir 
 						&& worldObj.getBlockMetadata((int) xCoord, (int) yCoord, (int) zCoord) != 1) {
 					worldObj.setBlockMetadataWithNotify((int) vec.xCoord, (int) vec.yCoord, (int) vec.zCoord, 1, 2);
 				}
 			}
 		} else if (activeState == true) {
 			activeState = false;
-			for (Vec3Hash vec : connectedResevoirs) {
+			for (Vec3Hash vec : connectedReservoirs) {
 				TileEntity te = worldObj.getBlockTileEntity((int) vec.xCoord, (int) vec.yCoord, (int) vec.zCoord);
-				if (te != null && te instanceof TileEntityHydroponicResevoir) {
+				if (te != null && te instanceof TileEntityHydroponicReservoir) {
 					worldObj.setBlockMetadataWithNotify((int) vec.xCoord, (int) vec.yCoord, (int) vec.zCoord, 0, 2);
 				}
 			}
@@ -58,18 +64,18 @@ public class TileEntityHydroponicDistributor extends TileEntityMachine implement
 		Set<Vec3Hash> resevoirs = new HashSet<Vec3Hash>();
 		resevoirs = getAdjacentResevoirBlocks(resevoirs, x, y, z);
 		
-		for (Vec3Hash vec : connectedResevoirs) {
+		for (Vec3Hash vec : connectedReservoirs) {
 			if (!resevoirs.contains(vec)) {
 				TileEntity te = worldObj.getBlockTileEntity((int) vec.xCoord, (int) vec.yCoord, (int) vec.zCoord);
-				if (te != null && te instanceof TileEntityHydroponicResevoir) {
-					((TileEntityHydroponicResevoir) te).disconnect();
+				if (te != null && te instanceof TileEntityHydroponicReservoir) {
+					((TileEntityHydroponicReservoir) te).disconnect();
 					worldObj.setBlockMetadataWithNotify((int) vec.xCoord, (int) vec.yCoord, (int) vec.zCoord, 0, 2);
 					System.out.println("A resevoir lost connection and has been removed");
 				}
 			}
 		}
 		
-		connectedResevoirs = resevoirs;
+		connectedReservoirs = resevoirs;
 	}
 	
 	public Set<Vec3Hash> getAdjacentResevoirBlocks(Set<Vec3Hash> resevoirs, int xPos, int yPos, int zPos) {
@@ -79,13 +85,13 @@ public class TileEntityHydroponicDistributor extends TileEntityMachine implement
 				if ((x == 0 || z == 0)  && !(x == 0 && z == 0)) {
 					blockId = worldObj.getBlockId(xPos + x, yPos, zPos + z);
 					Vec3Hash blockVec = new Vec3Hash(xPos + x, yPos, zPos + z);
-					if (blockId == CulinaryCraft.resevoir.blockID && !resevoirs.contains(blockVec)) {
+					if (blockId == CulinaryCraft.reservoir.blockID && !resevoirs.contains(blockVec)) {
 						TileEntity te = worldObj.getBlockTileEntity(xPos + x, yPos, zPos + z);
-						if (te != null && te instanceof TileEntityHydroponicResevoir 
-								&& (!((TileEntityHydroponicResevoir) te).isNetworked() 
-										|| ((TileEntityHydroponicResevoir) te).getDistributor().equals(new Vec3Hash(xCoord, yCoord, zCoord)))) {
+						if (te != null && te instanceof TileEntityHydroponicReservoir 
+								&& (!((TileEntityHydroponicReservoir) te).isNetworked() 
+										|| ((TileEntityHydroponicReservoir) te).getDistributor().equals(new Vec3Hash(xCoord, yCoord, zCoord)))) {
 							resevoirs.add(blockVec);
-							((TileEntityHydroponicResevoir) te).setDistributor(xCoord, yCoord, zCoord);
+							((TileEntityHydroponicReservoir) te).setDistributor(xCoord, yCoord, zCoord);
 							System.out.println("A resevoir was found and is being added to the network yo!");
 							getAdjacentResevoirBlocks(resevoirs, xPos + x, yPos, zPos + z);
 						}
@@ -108,27 +114,27 @@ public class TileEntityHydroponicDistributor extends TileEntityMachine implement
 	}
 	
 	public void addResevoir(Vec3Hash vec) {
-		connectedResevoirs.add(vec);
+		connectedReservoirs.add(vec);
 		System.out.println("Received request from resevoir. Adding to network.");
 	}
 	
 	public void disconnectNode(Vec3Hash vec) {
-		connectedResevoirs.remove(vec);
+		connectedReservoirs.remove(vec);
 		System.out.println("Received request from resevoir. Removing from network.");
 	}
 	
 	public void disconnectNetwork() {
-		for (Vec3Hash vec : connectedResevoirs) {
+		for (Vec3Hash vec : connectedReservoirs) {
 			int blockId = worldObj.getBlockId((int) vec.xCoord, (int) vec.yCoord, (int) vec.zCoord);
-			if (blockId == CulinaryCraft.resevoir.blockID) {
+			if (blockId == CulinaryCraft.reservoir.blockID) {
 				TileEntity te = worldObj.getBlockTileEntity((int) vec.xCoord, (int) vec.yCoord, (int) vec.zCoord);
-				if (te != null && te instanceof TileEntityHydroponicResevoir) {
+				if (te != null && te instanceof TileEntityHydroponicReservoir) {
 					worldObj.setBlockMetadataWithNotify((int) vec.xCoord, (int) vec.yCoord, (int) vec.zCoord, 0, 2);
-					((TileEntityHydroponicResevoir) te).disconnect();
+					((TileEntityHydroponicReservoir) te).disconnect();
 				}
 			}
 		}
-		connectedResevoirs.clear();
+		connectedReservoirs.clear();
 	}
 	
 	@Override
@@ -212,7 +218,7 @@ public class TileEntityHydroponicDistributor extends TileEntityMachine implement
 		}
 		
 		NBTTagList tagList = new NBTTagList();
-		for (Vec3Hash vec : connectedResevoirs) {
+		for (Vec3Hash vec : connectedReservoirs) {
 			NBTTagCompound tag = new NBTTagCompound();
 			tag.setIntArray("vector", new int[] {(int) vec.xCoord, (int) vec.yCoord, (int) vec.zCoord});
 			tagList.appendTag(tag);

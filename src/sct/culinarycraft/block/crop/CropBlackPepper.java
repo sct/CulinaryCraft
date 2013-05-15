@@ -9,7 +9,7 @@ public class CropBlackPepper extends CropBase {
 
 	public CropBlackPepper(int id) {
 		super(id, 8);
-		setUnlocalizedName("sct.crop.blackpepper");
+		setUnlocalizedName("culinary.crop.blackpepper");
 	}
 	
 	@Override

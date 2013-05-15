@@ -11,7 +11,7 @@ public class ItemHandMixer extends ItemKitchenTool {
 		super(id);
 		setMaxStackSize(1);
 		setCreativeTab(CulinaryCraftCreativeTab.tab);
-		setUnlocalizedName("sct.handmixer");
+		setUnlocalizedName("culinary.handmixer");
 	}
 	
 	@Override

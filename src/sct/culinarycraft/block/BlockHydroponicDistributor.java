@@ -15,7 +15,7 @@ public class BlockHydroponicDistributor extends BlockMachine {
 
 	public BlockHydroponicDistributor(int id) {
 		super(id);
-		setUnlocalizedName("sct.distributor");
+		setUnlocalizedName("culinary.machine.distributor");
 	}
 	
 	@Override

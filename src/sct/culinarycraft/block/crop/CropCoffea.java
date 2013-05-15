@@ -10,7 +10,7 @@ public class CropCoffea extends CropBase {
 
 	public CropCoffea(int id) {
 		super(id, 5);
-		setUnlocalizedName("sct.crop.coffea");
+		setUnlocalizedName("culinary.crop.coffea");
 	}
 	
 	@Override

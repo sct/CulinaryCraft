@@ -1,5 +1,8 @@
 package sct.culinarycraft.block;
 
+import java.util.Random;
+
+import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -8,18 +11,38 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.IPlantable;
 import sct.culinarycraft.CulinaryCraft;
-import sct.culinarycraft.tile.TileEntityHydroponicResevoir;
+import sct.culinarycraft.tile.TileEntityHydroponicReservoir;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockHydroponicResevoir extends BlockMachine {
+public class BlockHydroponicReservoir extends BlockMachine {
 	
 	private Icon[] iconsIdle = new Icon[6];
 	private Icon[] iconsActive = new Icon[6];
 
-	public BlockHydroponicResevoir(int id) {
+	public BlockHydroponicReservoir(int id) {
 		super(id);
-		setUnlocalizedName("sct.resevoir");
+		setTickRandomly(true);
+		setUnlocalizedName("culinary.machine.reservoir");
+	}
+	
+	@Override
+	public void updateTick(World world, int x, int y, int z,
+			Random rand) {
+		super.updateTick(world, x, y, z, rand);
+		
+		int meta = world.getBlockMetadata(x, y, z);
+		if (meta == 1) {
+			TileEntity te = world.getBlockTileEntity(x, y, z);
+			if (te != null && te instanceof TileEntityHydroponicReservoir) {
+				for (int i = 0; i < ((TileEntityHydroponicReservoir) te).getGrowthChances(); i++) {
+					Block plant = Block.blocksList[world.getBlockId(x, y + 1, z)];
+					if (plant instanceof IPlantable) {
+						plant.updateTick(world, x, y + 1, z, rand);
+					}
+				}
+			}
+		}
 	}
 	
 	@Override
@@ -51,18 +74,18 @@ public class BlockHydroponicResevoir extends BlockMachine {
 	@Override
 	public void onBlockAdded(World world, int x, int y, int z) {
 		TileEntity te = world.getBlockTileEntity(x, y, z);
-		if (te != null && te instanceof TileEntityHydroponicResevoir) {
-			((TileEntityHydroponicResevoir) te).findDistributor();
+		if (te != null && te instanceof TileEntityHydroponicReservoir) {
+			((TileEntityHydroponicReservoir) te).findDistributor();
 		}
 	}
 	
 	@Override
 	public void onNeighborBlockChange(World world, int x, int y,
 			int z, int blockid) {
-		if (blockid == CulinaryCraft.resevoir.blockID) {
+		if (blockid == CulinaryCraft.reservoir.blockID) {
 			TileEntity te = world.getBlockTileEntity(x, y, z);
-			if (te != null && te instanceof TileEntityHydroponicResevoir) {
-				((TileEntityHydroponicResevoir) te).verifyNetwork();
+			if (te != null && te instanceof TileEntityHydroponicReservoir) {
+				((TileEntityHydroponicReservoir) te).verifyNetwork();
 			}
 		}
 	}
@@ -86,7 +109,7 @@ public class BlockHydroponicResevoir extends BlockMachine {
 
 	@Override
 	public TileEntity createNewTileEntity(World world) {
-		return new TileEntityHydroponicResevoir();
+		return new TileEntityHydroponicReservoir();
 	}
 
 }

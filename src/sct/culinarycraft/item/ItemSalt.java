@@ -12,7 +12,7 @@ public class ItemSalt extends Item {
 		super(id);
 		setMaxStackSize(64);
 		setCreativeTab(CulinaryCraftCreativeTab.tab);
-		setUnlocalizedName("sct.salt");
+		setUnlocalizedName("culinary.salt");
 	}
 	
 	@Override

@@ -14,7 +14,7 @@ public class BlockKitchenTile extends Block {
 		setHardness(2.0F);
 		setResistance(10.0F);
 		setStepSound(soundStoneFootstep);
-		setUnlocalizedName("sctkitchentile");
+		setUnlocalizedName("culinary.decorative");
 		setCreativeTab(CulinaryCraftCreativeTab.tab);
 	}
 	

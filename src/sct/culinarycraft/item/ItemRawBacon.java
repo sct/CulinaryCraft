@@ -12,7 +12,7 @@ public class ItemRawBacon extends ItemFood {
 		super(id, 1, false);
 		setMaxStackSize(64);
 		setCreativeTab(CulinaryCraftCreativeTab.tab);
-		setUnlocalizedName("sct.rawbacon");
+		setUnlocalizedName("culinary.rawbacon");
 	}
 	
 	@Override

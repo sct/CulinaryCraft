@@ -12,7 +12,7 @@ public class ItemCookedEgg extends ItemFood {
 		super(id, 4, true);
 		setMaxStackSize(64);
 		setCreativeTab(CulinaryCraftCreativeTab.tab);
-		setUnlocalizedName("sct.cookedegg");
+		setUnlocalizedName("culinary.cookedegg");
 	}
 	
 	@Override

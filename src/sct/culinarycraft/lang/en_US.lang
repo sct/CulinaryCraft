@@ -1,0 +1,20 @@
+tile.culinary.machine.distributor.name = Hydroponic Distributor
+tile.culinary.machine.reservoir.name = Hydroponic Reservoir
+tile.culinary.machine.countertop.name = Countertop
+tile.culinary.machine.dehydrator.name = Dehydrator
+tile.culinary.machine.oven.name = Oven
+tile.culinary.decorative.name = Kitchen Tile
+tile.culinary.crop.coffea.name = Coffea
+tile.culinary.crop.blackpepper.name = Black Pepper
+
+item.culinary.bacon.name = Bacon
+item.culinary.cookedegg.name = Cooked Egg
+item.culinary.cuttingboard.name = Cutting Board
+item.culinary.fryingpan.name = Frying Pan
+item.culinary.handmixer.name = Hand Mixer
+item.culinary.pancakes.name = Pancakes
+item.culinary.rawbacon.name = Raw Bacon
+item.culinary.salt.name = Salt
+item.culinary.standmixer.name = Stand Mixer
+item.culinary.seed.blackpeppercorn.name = Black Peppercorn
+item.culinary.seed.coffea.name = Coffea Seed

@@ -15,7 +15,7 @@ public class BlockOven extends BlockMachineInventory {
 
 	public BlockOven(int id) {
 		super(id);
-		setUnlocalizedName("sct.oven");
+		setUnlocalizedName("culinary.machine.oven");
 	}
 	
 	@Override

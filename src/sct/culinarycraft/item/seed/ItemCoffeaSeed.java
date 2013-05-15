@@ -14,7 +14,7 @@ public class ItemCoffeaSeed extends ItemSeeds {
 		super(id, CulinaryCraft.cropCoffea.blockID, Block.tilledField.blockID);
 		setMaxStackSize(64);
 		setCreativeTab(CulinaryCraftCreativeTab.tab);
-		setUnlocalizedName("sct.coffeaseed");
+		setUnlocalizedName("culinary.seed.coffea");
 	}
 	
 	@Override

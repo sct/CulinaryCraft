@@ -16,7 +16,7 @@ public class BlockCountertop extends BlockMachineInventory {
 
 	public BlockCountertop(int id) {
 		super(id);
-		setUnlocalizedName("sct.countertop");
+		setUnlocalizedName("culinary.machine.countertop");
 	}
 	
 	@Override
