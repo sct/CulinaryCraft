@@ -2,10 +2,9 @@ package sct.culinarycraft.tile;
 
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
-import sct.culinarycraft.CulinaryCraft;
-import sct.culinarycraft.net.PacketWrapper;
-import sct.culinarycraft.net.Packets;
+import net.minecraft.network.packet.Packet132TileEntityData;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class TileEntityCountertop extends TileEntityMachinePowered {
@@ -23,16 +22,28 @@ public class TileEntityCountertop extends TileEntityMachinePowered {
 	public void setTool(int itemId) {
 		toolId = itemId;
 		if (worldObj != null)
-			PacketDispatcher.sendPacketToAllAround(xCoord, yCoord, zCoord, 50, worldObj.provider.dimensionId, getToolPacket());
+			PacketDispatcher.sendPacketToAllAround(xCoord, yCoord, zCoord, 50, worldObj.provider.dimensionId, getDescriptionPacket());
 	}
 	
 	public void setClientTool(int itemId) {
 		this.toolId = itemId;
 	}
 	
-	public Packet getToolPacket() {
-		Object[] toSend = { xCoord, yCoord, zCoord, toolId};
-		return PacketWrapper.createPacket(CulinaryCraft.modNetworkChannel, Packets.ToolChange, toSend);
+	@Override
+	public void onDataPacket(INetworkManager net, Packet132TileEntityData pkt) {
+		rotateDirectlyTo(pkt.customParam1.getInteger("rotation"));
+		setClientWorking(pkt.customParam1.getBoolean("working"));
+		setClientTool(pkt.customParam1.getInteger("toolId"));
+	}
+	
+	@Override
+	public Packet getDescriptionPacket() {
+		NBTTagCompound data = new NBTTagCompound();
+		data.setInteger("rotation", getDirectionFacing().ordinal());
+		data.setBoolean("working", isWorking());
+		data.setInteger("toolId", toolId);
+		Packet132TileEntityData packet = new Packet132TileEntityData(xCoord, yCoord, zCoord, 0, data);
+		return packet;
 	}
 	
 	@Override

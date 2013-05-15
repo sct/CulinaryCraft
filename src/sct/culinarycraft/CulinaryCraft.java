@@ -5,6 +5,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import sct.culinarycraft.block.BlockCountertop;
 import sct.culinarycraft.block.BlockDehydrator;
+import sct.culinarycraft.block.BlockHydroponicDistributor;
+import sct.culinarycraft.block.BlockHydroponicResevoir;
 import sct.culinarycraft.block.BlockKitchenTile;
 import sct.culinarycraft.block.BlockOven;
 import sct.culinarycraft.block.crop.CropBlackPepper;
@@ -26,6 +28,8 @@ import sct.culinarycraft.net.ClientPacketHandler;
 import sct.culinarycraft.recipe.RecipeManager;
 import sct.culinarycraft.tile.TileEntityCountertop;
 import sct.culinarycraft.tile.TileEntityDehydrator;
+import sct.culinarycraft.tile.TileEntityHydroponicDistributor;
+import sct.culinarycraft.tile.TileEntityHydroponicResevoir;
 import sct.culinarycraft.tile.TileEntityOven;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
@@ -71,6 +75,8 @@ public class CulinaryCraft {
 	public final static Block blockOven = new BlockOven(2301);
 	public final static Block dehydrator = new BlockDehydrator(2302);
 	public final static Block countertop = new BlockCountertop(2304);
+	public final static Block resevoir = new BlockHydroponicResevoir(2305);
+	public final static Block distributor = new BlockHydroponicDistributor(2306);
 	
 	public final static Block cropBlackPepper = new CropBlackPepper(2320);
 	public final static Block cropCoffea = new CropCoffea(2321);
@@ -100,6 +106,8 @@ public class CulinaryCraft {
 		GameRegistry.registerBlock(blockOven, "sct.oven");
 		GameRegistry.registerBlock(dehydrator, "sct.dehydrator");
 		GameRegistry.registerBlock(countertop, "sct.countertop");
+		GameRegistry.registerBlock(resevoir, "sct.resevoir");
+		GameRegistry.registerBlock(distributor, "sct.distributor");
 		
 		GameRegistry.registerBlock(cropBlackPepper, "sct.crop.blackpepper");
 		GameRegistry.registerBlock(cropCoffea, "sct.coffea");
@@ -110,6 +118,8 @@ public class CulinaryCraft {
 		GameRegistry.registerTileEntity(TileEntityOven.class, "entityOven");
 		GameRegistry.registerTileEntity(TileEntityDehydrator.class, "entityDehydrator");
 		GameRegistry.registerTileEntity(TileEntityCountertop.class, "entityCountertop");
+		GameRegistry.registerTileEntity(TileEntityHydroponicDistributor.class, "entityDistributor");
+		GameRegistry.registerTileEntity(TileEntityHydroponicResevoir.class, "entityResevoir");
 		
 		LanguageRegistry.addName(pancakes, "Pancakes");
 		LanguageRegistry.addName(bacon, "Bacon");
@@ -127,6 +137,8 @@ public class CulinaryCraft {
 		LanguageRegistry.addName(blockOven, "Oven");
 		LanguageRegistry.addName(dehydrator, "Dehydrator");
 		LanguageRegistry.addName(countertop, "Countertop");
+		LanguageRegistry.addName(resevoir, "Hydroponic Resevoir");
+		LanguageRegistry.addName(distributor, "Hydroponic Distributor");
 		
 		LanguageRegistry.addName(cropBlackPepper, "Black Pepper");
 		
