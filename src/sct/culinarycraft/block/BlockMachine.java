@@ -1,6 +1,8 @@
 package sct.culinarycraft.block;
 
 import sct.culinarycraft.CulinaryCraft;
+import sct.culinarycraft.core.ITankContainerBucketable;
+import sct.culinarycraft.core.MFRLiquidMover;
 import sct.culinarycraft.gui.CulinaryCraftCreativeTab;
 import sct.culinarycraft.tile.TileEntityMachine;
 import sct.culinarycraft.util.CulinaryCraftUtils;
@@ -12,6 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.liquids.LiquidContainerRegistry;
 
 public abstract class BlockMachine extends BlockContainer {
 
@@ -27,12 +30,25 @@ public abstract class BlockMachine extends BlockContainer {
 			int z, EntityPlayer player, int par6, float par7,
 			float par8, float par9) {
 		
-		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
-		if (tileEntity == null || player.isSneaking()) {
+		TileEntity te = world.getBlockTileEntity(x, y, z);
+		if (te == null || player.isSneaking()) {
 			return false;
 		}
-		if (CulinaryCraftUtils.isHoldingMixer(player) && ((TileEntityMachine) tileEntity).canRotate()) {
-			((TileEntityMachine) tileEntity).rotate();
+		
+		if (te instanceof ITankContainerBucketable 
+				&& LiquidContainerRegistry.isEmptyContainer(player.inventory.getCurrentItem()) 
+				&& ((ITankContainerBucketable)te).allowBucketDrain()) {
+			if (MFRLiquidMover.manuallyDrainTank((ITankContainerBucketable) te, player)) {
+				return true;
+			}
+		} else if (te instanceof ITankContainerBucketable
+				&& LiquidContainerRegistry.isFilledContainer(player.inventory.getCurrentItem())
+				&& ((ITankContainerBucketable)te).allowBucketFill()) {
+			if (MFRLiquidMover.manuallyFillTank((ITankContainerBucketable) te, player)) {
+				return true;
+			}
+		} else if (CulinaryCraftUtils.isHoldingMixer(player) && ((TileEntityMachine) te).canRotate()) {
+			((TileEntityMachine) te).rotate();
 		} else {
 			player.openGui(CulinaryCraft.instance, 0, world, x, y, z);
 		}

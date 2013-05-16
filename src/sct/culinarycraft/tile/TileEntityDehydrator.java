@@ -1,17 +1,17 @@
 package sct.culinarycraft.tile;
 
-import sct.culinarycraft.CulinaryCraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.liquids.ILiquidTank;
-import net.minecraftforge.liquids.ITankContainer;
 import net.minecraftforge.liquids.LiquidContainerRegistry;
 import net.minecraftforge.liquids.LiquidDictionary;
 import net.minecraftforge.liquids.LiquidStack;
 import net.minecraftforge.liquids.LiquidTank;
+import sct.culinarycraft.CulinaryCraft;
+import sct.culinarycraft.core.ITankContainerBucketable;
 
-public class TileEntityDehydrator extends TileEntityMachinePowered implements ITankContainer {
+public class TileEntityDehydrator extends TileEntityMachinePowered implements ITankContainerBucketable {
 	
 	private LiquidTank tank;
 	private int tick = 0;
@@ -140,6 +140,16 @@ public class TileEntityDehydrator extends TileEntityMachinePowered implements IT
 		if (l != null) {
 			l.writeToNBT(tagCompound);
 		}
+	}
+
+	@Override
+	public boolean allowBucketFill() {
+		return true;
+	}
+
+	@Override
+	public boolean allowBucketDrain() {
+		return false;
 	}
 
 }

@@ -68,8 +68,6 @@ public class TileEntityHydroponicReservoir extends TileEntity {
 			curNode = null;
 			
 			if (open.isEmpty()) {
-				System.out.println("No distributor found. Removing from network");
-				
 				/* Now that we know it cant find the dist, we have to set any resevoirs in the closed list to disconnected*/
 				TileEntity te = worldObj.getBlockTileEntity((int) distributor.xCoord, (int) distributor.yCoord, (int) distributor.zCoord);
 				for (Vec3Hash vec : closed) {
@@ -114,19 +112,15 @@ public class TileEntityHydroponicReservoir extends TileEntity {
 				}
 			}
 		}
-		
-		System.out.println("found dist!");
 		return true;
 	}
 	
 	public void setDistributor(int x, int y, int z) {
 		this.distributor = new Vec3Hash(x, y, z);
-		System.out.println("Distributor registered for resevoir @ " + xCoord + ", " + yCoord + ", " + zCoord);
 	}
 	
 	public void setDistributor(Vec3Hash vec) {
 		this.distributor = vec;
-		System.out.println("Distributor registered for resevoir @ " + xCoord + ", " + yCoord + ", " + zCoord);
 	}
 	
 	public void disconnect() {

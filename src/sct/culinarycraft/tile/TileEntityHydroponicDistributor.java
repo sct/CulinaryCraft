@@ -8,15 +8,15 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.liquids.ILiquidTank;
-import net.minecraftforge.liquids.ITankContainer;
 import net.minecraftforge.liquids.LiquidContainerRegistry;
 import net.minecraftforge.liquids.LiquidDictionary;
 import net.minecraftforge.liquids.LiquidStack;
 import net.minecraftforge.liquids.LiquidTank;
 import sct.culinarycraft.CulinaryCraft;
+import sct.culinarycraft.core.ITankContainerBucketable;
 import sct.culinarycraft.util.Vec3Hash;
 
-public class TileEntityHydroponicDistributor extends TileEntityMachine implements ITankContainer {
+public class TileEntityHydroponicDistributor extends TileEntityMachine implements ITankContainerBucketable {
 	
 	private LiquidTank tank;
 	private int tick = 0;
@@ -70,7 +70,6 @@ public class TileEntityHydroponicDistributor extends TileEntityMachine implement
 				if (te != null && te instanceof TileEntityHydroponicReservoir) {
 					((TileEntityHydroponicReservoir) te).disconnect();
 					worldObj.setBlockMetadataWithNotify((int) vec.xCoord, (int) vec.yCoord, (int) vec.zCoord, 0, 2);
-					System.out.println("A resevoir lost connection and has been removed");
 				}
 			}
 		}
@@ -92,7 +91,6 @@ public class TileEntityHydroponicDistributor extends TileEntityMachine implement
 										|| ((TileEntityHydroponicReservoir) te).getDistributor().equals(new Vec3Hash(xCoord, yCoord, zCoord)))) {
 							resevoirs.add(blockVec);
 							((TileEntityHydroponicReservoir) te).setDistributor(xCoord, yCoord, zCoord);
-							System.out.println("A resevoir was found and is being added to the network yo!");
 							getAdjacentResevoirBlocks(resevoirs, xPos + x, yPos, zPos + z);
 						}
 						
@@ -115,12 +113,10 @@ public class TileEntityHydroponicDistributor extends TileEntityMachine implement
 	
 	public void addResevoir(Vec3Hash vec) {
 		connectedReservoirs.add(vec);
-		System.out.println("Received request from resevoir. Adding to network.");
 	}
 	
 	public void disconnectNode(Vec3Hash vec) {
 		connectedReservoirs.remove(vec);
-		System.out.println("Received request from resevoir. Removing from network.");
 	}
 	
 	public void disconnectNetwork() {
@@ -224,6 +220,16 @@ public class TileEntityHydroponicDistributor extends TileEntityMachine implement
 			tagList.appendTag(tag);
 		}
 		tagCompound.setTag("resevoirs", tagList);
+	}
+
+	@Override
+	public boolean allowBucketFill() {
+		return true;
+	}
+
+	@Override
+	public boolean allowBucketDrain() {
+		return false;
 	}
 
 }
