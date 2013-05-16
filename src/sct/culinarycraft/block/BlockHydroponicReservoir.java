@@ -48,14 +48,14 @@ public class BlockHydroponicReservoir extends BlockMachine {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister ir) {
-		iconsIdle[0] = ir.registerIcon("tile.sct.resevoir.idle.side");
+		iconsIdle[0] = ir.registerIcon("tile.sct.resevoir.idle.bottom");
 		iconsIdle[1] = ir.registerIcon("tile.sct.resevoir.idle.top");
 		iconsIdle[2] = ir.registerIcon("tile.sct.resevoir.idle.side");
 		iconsIdle[3] = ir.registerIcon("tile.sct.resevoir.idle.side");
 		iconsIdle[4] = ir.registerIcon("tile.sct.resevoir.idle.side");
 		iconsIdle[5] = ir.registerIcon("tile.sct.resevoir.idle.side");
 
-		iconsActive[0] = ir.registerIcon("tile.sct.resevoir.active.side");
+		iconsActive[0] = ir.registerIcon("tile.sct.resevoir.active.bottom");
 		iconsActive[1] = ir.registerIcon("tile.sct.resevoir.active.top");
 		iconsActive[2] = ir.registerIcon("tile.sct.resevoir.active.side");
 		iconsActive[3] = ir.registerIcon("tile.sct.resevoir.active.side");
