@@ -6,9 +6,13 @@ import net.minecraft.tileentity.TileEntity;
 
 import org.lwjgl.opengl.GL11;
 
+import sct.culinarycraft.item.ItemCoffeeMachine;
 import sct.culinarycraft.item.ItemCuttingBoard;
+import sct.culinarycraft.item.ItemMicrowave;
 import sct.culinarycraft.item.ItemStandMixer;
+import sct.culinarycraft.model.ModelCoffeeMachine;
 import sct.culinarycraft.model.ModelCuttingBoard;
+import sct.culinarycraft.model.ModelMicrowave;
 import sct.culinarycraft.model.ModelStandMixer;
 import sct.culinarycraft.tile.TileEntityCountertop;
 import sct.culinarycraft.tile.TileEntityMachine;
@@ -18,6 +22,8 @@ public class CounterRenderer extends TileEntitySpecialRenderer {
 	
 	private ModelCuttingBoard board = new ModelCuttingBoard();
 	private ModelStandMixer mixer = new ModelStandMixer();
+	private ModelMicrowave microwave = new ModelMicrowave();
+	private ModelCoffeeMachine coffee = new ModelCoffeeMachine();
 
 	@Override
 	public void renderTileEntityAt(TileEntity te, double x, double y,
@@ -60,6 +66,18 @@ public class CounterRenderer extends TileEntitySpecialRenderer {
 				FMLClientHandler.instance().getClient().renderEngine.bindTexture("/textures/maps/StandMixer.png");
 				GL11.glPushMatrix();
 				mixer.render(0.0625F);
+			} else if (((TileEntityCountertop) te).getTool() instanceof ItemMicrowave) {
+				GL11.glTranslatef(0, 0.80F, 0);
+				GL11.glRotatef(180F, 0, 0, 1);
+				FMLClientHandler.instance().getClient().renderEngine.bindTexture("/textures/maps/Microwave.png");
+				GL11.glPushMatrix();
+				microwave.render(0.0625F);
+			} else if (((TileEntityCountertop) te).getTool() instanceof ItemCoffeeMachine) {
+				GL11.glTranslatef(0, 0.80F, 0);
+				GL11.glRotatef(180F, 0, 0, 1);
+				FMLClientHandler.instance().getClient().renderEngine.bindTexture("/textures/maps/CoffeeMachine.png");
+				GL11.glPushMatrix();
+				coffee.render(0.0625F);
 			} else {
 				GL11.glPushMatrix();
 			}

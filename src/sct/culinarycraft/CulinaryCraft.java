@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.MinecraftForge;
 import sct.culinarycraft.block.BlockCountertop;
 import sct.culinarycraft.block.BlockDehydrator;
 import sct.culinarycraft.block.BlockHydroponicDistributor;
@@ -13,12 +14,15 @@ import sct.culinarycraft.block.BlockKitchenTile;
 import sct.culinarycraft.block.BlockOven;
 import sct.culinarycraft.block.crop.CropBlackPepper;
 import sct.culinarycraft.block.crop.CropCoffea;
+import sct.culinarycraft.event.EventHandler;
 import sct.culinarycraft.gui.GuiHandler;
 import sct.culinarycraft.item.ItemBacon;
+import sct.culinarycraft.item.ItemCoffeeMachine;
 import sct.culinarycraft.item.ItemCookedEgg;
 import sct.culinarycraft.item.ItemCuttingBoard;
 import sct.culinarycraft.item.ItemFryingPan;
 import sct.culinarycraft.item.ItemHandMixer;
+import sct.culinarycraft.item.ItemMicrowave;
 import sct.culinarycraft.item.ItemPancakes;
 import sct.culinarycraft.item.ItemRawBacon;
 import sct.culinarycraft.item.ItemSalt;
@@ -63,6 +67,7 @@ public class CulinaryCraft {
 	public static CommonProxy proxy;
 	
 	public static Logger logger;
+	public static EventHandler eventHandler;
 	
 	public static Block decorative;
 	public static Block oven;
@@ -83,6 +88,8 @@ public class CulinaryCraft {
 	public static Item salt;
 	public static Item cuttingBoard;
 	public static Item standMixer;
+	public static Item microwave;
+	public static Item coffeeMachine;
 	
 	public static Item seedBlackPeppercorn;
 	public static Item seedCoffeaSeed;
@@ -97,6 +104,8 @@ public class CulinaryCraft {
 		CulinaryCraftConfig.loadLang();
 		
 		logger = event.getModLog();
+		eventHandler = new EventHandler();
+		MinecraftForge.EVENT_BUS.register(eventHandler);
 	}
 	
 	@Init
@@ -121,6 +130,8 @@ public class CulinaryCraft {
 		salt = new ItemSalt(CulinaryCraftConfig.saltItemId.getInt());
 		cuttingBoard = new ItemCuttingBoard(CulinaryCraftConfig.cuttingBoardItemId.getInt());
 		standMixer = new ItemStandMixer(CulinaryCraftConfig.standMixerItemId.getInt());
+		microwave = new ItemMicrowave(CulinaryCraftConfig.microwaveItemId.getInt());
+		coffeeMachine = new ItemCoffeeMachine(CulinaryCraftConfig.coffeeMachineItemId.getInt());
 		
 		seedCoffeaSeed = new ItemCoffeaSeed(CulinaryCraftConfig.coffeaSeedItemId.getInt());
 		seedBlackPeppercorn = new ItemBlackPeppercorn(CulinaryCraftConfig.blackPeppercornItemId.getInt());
@@ -143,6 +154,7 @@ public class CulinaryCraft {
 		GameRegistry.registerItem(salt, salt.getUnlocalizedName());
 		GameRegistry.registerItem(cuttingBoard, cuttingBoard.getUnlocalizedName());
 		GameRegistry.registerItem(standMixer, standMixer.getUnlocalizedName());
+		GameRegistry.registerItem(microwave, microwave.getUnlocalizedName());
 		
 		GameRegistry.registerItem(seedBlackPeppercorn, seedBlackPeppercorn.getUnlocalizedName());
 		GameRegistry.registerItem(seedCoffeaSeed, seedCoffeaSeed.getUnlocalizedName());

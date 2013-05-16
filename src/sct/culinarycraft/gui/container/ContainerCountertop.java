@@ -15,7 +15,7 @@ public class ContainerCountertop extends ContainerMachinePowered {
 		
 		addSlotToContainer(new SlotCountertop(te, 0, 26, 34));
 		addSlotToContainer(new Slot(te, 1, 80, 34));
-		this.addSlotToContainer(new SlotFurnace(invPlayer.player, (IInventory) te, 2, 115, 34));
+		addSlotToContainer(new SlotFurnace(invPlayer.player, (IInventory) te, 2, 115, 34));
 		
 		bindPlayerInventory(invPlayer);
 	}
@@ -46,11 +46,11 @@ public class ContainerCountertop extends ContainerMachinePowered {
 			ItemStack stackInSlot = slotObject.getStack();
 			stack = stackInSlot.copy();
 			
-			if (slot < 8) {
-				if (!this.mergeItemStack(stackInSlot, 1, 45, true)) {
+			if (slot < 3) {
+				if (!this.mergeItemStack(stackInSlot, 3, 39, true)) {
 					return null;
 				}
-			} else if (!this.mergeItemStack(stackInSlot, 0, 1, false)) {
+			} else if (!this.mergeItemStack(stackInSlot, 0, 2, false)) {
 				return null;
 			}
 			

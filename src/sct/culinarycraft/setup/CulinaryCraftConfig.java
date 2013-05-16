@@ -39,6 +39,8 @@ public class CulinaryCraftConfig {
 	public static Property cuttingBoardItemId;
 	public static Property handMixerItemId;
 	public static Property standMixerItemId;
+	public static Property microwaveItemId;
+	public static Property coffeeMachineItemId;
 	
 	public static Property blackPeppercornItemId;
 	public static Property coffeaSeedItemId;
@@ -75,8 +77,9 @@ public class CulinaryCraftConfig {
 			handMixerItemId = c.getItem(Configuration.CATEGORY_ITEM, "ID.HandMixer", 23107);
 			standMixerItemId = c.getItem(Configuration.CATEGORY_ITEM, "ID.StandMixer", 23108);
 			blackPeppercornItemId = c.getItem(Configuration.CATEGORY_ITEM, "ID.BlackPeppercorn", 23109);
-			coffeaSeedItemId = c.getItem(Configuration.CATEGORY_ITEM, "ID.CoffeaSeed", 23109);
-			
+			coffeaSeedItemId = c.getItem(Configuration.CATEGORY_ITEM, "ID.CoffeaSeed", 23110);
+			microwaveItemId = c.getItem(Configuration.CATEGORY_ITEM, "ID.Microwave", 23111);
+			coffeeMachineItemId = c.getItem(Configuration.CATEGORY_ITEM, "ID.CoffeeMachine", 23112);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
