@@ -2,9 +2,9 @@ package sct.culinarycraft.tile;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.ForgeDirection;
+import sct.culinarycraft.core.PowerProviderAdvanced;
 import buildcraft.api.power.IPowerProvider;
 import buildcraft.api.power.IPowerReceptor;
-import buildcraft.api.power.PowerFramework;
 
 public abstract class TileEntityMachinePowered extends TileEntityMachineInventory implements IPowerReceptor {
 	
@@ -18,7 +18,7 @@ public abstract class TileEntityMachinePowered extends TileEntityMachineInventor
 	
 	protected TileEntityMachinePowered(int energyCostMJ) {
 		this.energyCost = energyCostMJ;
-		powerProvider = PowerFramework.currentFramework.createPowerProvider();
+		powerProvider = new PowerProviderAdvanced();
 		powerProvider.configure(25, 10, 10, 1, 1000);
 	}
 	
