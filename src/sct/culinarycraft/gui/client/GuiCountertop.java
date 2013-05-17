@@ -31,9 +31,9 @@ public class GuiCountertop extends GuiMachine {
 		int y = (height - ySize) / 2;
 		this.drawTexturedModalRect(x, y, 0, 0, xSize, ySize);
 		
-		int cookTime = 0;
+		int cookTime = te.getCookProgressScaled(16);
 		if (cookTime > 0) {
-			drawTexturedModalRect(x + 67, y + 33, 176, 0, 48 - cookTime, 19);
+			drawTexturedModalRect(x + 98, y + 34, 177, 0, 16 - cookTime, 16);
 		}
 		
 		int energyScaled = (te.getEnergyStored() * 42) / te.getEnergyStoredMax();

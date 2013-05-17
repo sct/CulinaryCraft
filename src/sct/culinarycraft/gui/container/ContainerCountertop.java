@@ -2,22 +2,45 @@ package sct.culinarycraft.gui.container;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotFurnace;
 import net.minecraft.item.ItemStack;
 import sct.culinarycraft.tile.TileEntityCountertop;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ContainerCountertop extends ContainerMachinePowered {
 
 	public ContainerCountertop(InventoryPlayer invPlayer, TileEntityCountertop te) {
 		super(te);
 		
-		addSlotToContainer(new SlotCountertop(te, 0, 26, 34));
-		addSlotToContainer(new Slot(te, 1, 80, 34));
-		addSlotToContainer(new SlotFurnace(invPlayer.player, (IInventory) te, 2, 115, 34));
+		addSlotToContainer(new SlotCountertop(te, 0, 26, 34, true));
+		addSlotToContainer(new SlotCountertop(te, 1, 60, 34, false));
+		addSlotToContainer(new SlotCountertop(te, 2, 80, 34, false));
+		addSlotToContainer(new SlotFurnace(invPlayer.player, (IInventory) te, 3, 115, 34));
 		
 		bindPlayerInventory(invPlayer);
+	}
+	
+	@Override
+	public void detectAndSendChanges() {
+		super.detectAndSendChanges();
+		
+		for (int i = 0; i < crafters.size(); i++) {
+			((ICrafting)crafters.get(i)).sendProgressBarUpdate(this, 1, ((TileEntityCountertop)te).getCookTime());
+		}
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void updateProgressBar(int var, int value) {
+		super.updateProgressBar(var, value);
+		
+		if (var == 1) {
+			((TileEntityCountertop) te).setCookTime(value);
+		}
 	}
 
 	@Override
@@ -46,11 +69,11 @@ public class ContainerCountertop extends ContainerMachinePowered {
 			ItemStack stackInSlot = slotObject.getStack();
 			stack = stackInSlot.copy();
 			
-			if (slot < 3) {
-				if (!this.mergeItemStack(stackInSlot, 3, 39, true)) {
+			if (slot < 4) {
+				if (!this.mergeItemStack(stackInSlot, 4, 40, true)) {
 					return null;
 				}
-			} else if (!this.mergeItemStack(stackInSlot, 0, 2, false)) {
+			} else if (!this.mergeItemStack(stackInSlot, 1, 3, false)) {
 				return null;
 			}
 			

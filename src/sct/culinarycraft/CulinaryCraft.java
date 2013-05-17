@@ -168,6 +168,8 @@ public class CulinaryCraft {
 		RecipeManager.addShapelessOvenRecipe(new ItemStack(bacon), new Object[]{rawBacon,fryingPan});
 		RecipeManager.addShapelessOvenRecipe(new ItemStack(cookedEgg), new Object[]{Item.egg,fryingPan});
 		
+		RecipeManager.addCountertopRecipe(new ItemStack(bacon), cuttingBoard, new Object[]{rawBacon,salt});
+		
 		NetworkRegistry.instance().registerGuiHandler(this, new GuiHandler());
 		
 		proxy.init();
