@@ -12,8 +12,7 @@ import sct.culinarycraft.block.BlockHydroponicDistributor;
 import sct.culinarycraft.block.BlockHydroponicReservoir;
 import sct.culinarycraft.block.BlockKitchenTile;
 import sct.culinarycraft.block.BlockOven;
-import sct.culinarycraft.block.crop.CropBlackPepper;
-import sct.culinarycraft.block.crop.CropCoffea;
+import sct.culinarycraft.block.crop.CropBase;
 import sct.culinarycraft.event.EventHandler;
 import sct.culinarycraft.gui.GuiHandler;
 import sct.culinarycraft.item.ItemBacon;
@@ -33,6 +32,7 @@ import sct.culinarycraft.net.ClientPacketHandler;
 import sct.culinarycraft.recipe.RecipeManager;
 import sct.culinarycraft.setup.CulinaryCraftConfig;
 import sct.culinarycraft.tile.TileEntityCountertop;
+import sct.culinarycraft.tile.TileEntityCrop;
 import sct.culinarycraft.tile.TileEntityDehydrator;
 import sct.culinarycraft.tile.TileEntityHydroponicDistributor;
 import sct.culinarycraft.tile.TileEntityHydroponicReservoir;
@@ -75,6 +75,7 @@ public class CulinaryCraft {
 	public static Block countertop;
 	public static Block reservoir;
 	public static Block distributor;
+	public static Block crop;
 	public static Block cropCoffea;
 	public static Block cropBlackPepper;
 	
@@ -117,8 +118,7 @@ public class CulinaryCraft {
 		countertop = new BlockCountertop(CulinaryCraftConfig.countertopBlockId.getInt());
 		reservoir = new BlockHydroponicReservoir(CulinaryCraftConfig.reservoirBlockId.getInt());
 		distributor = new BlockHydroponicDistributor(CulinaryCraftConfig.distributorBlockId.getInt());
-		cropCoffea = new CropCoffea(CulinaryCraftConfig.coffeaBlockId.getInt());
-		cropBlackPepper = new CropBlackPepper(CulinaryCraftConfig.blackPepperBlockId.getInt());
+		crop = new CropBase(CulinaryCraftConfig.coffeaBlockId.getInt());
 		
 		
 		pancakes = new ItemPancakes(CulinaryCraftConfig.pancakesItemId.getInt());
@@ -142,8 +142,7 @@ public class CulinaryCraft {
 		GameRegistry.registerBlock(countertop, countertop.getUnlocalizedName());
 		GameRegistry.registerBlock(reservoir, reservoir.getUnlocalizedName());
 		GameRegistry.registerBlock(distributor, distributor.getUnlocalizedName());
-		GameRegistry.registerBlock(cropCoffea, cropCoffea.getUnlocalizedName());
-		GameRegistry.registerBlock(cropBlackPepper, cropBlackPepper.getUnlocalizedName());
+		GameRegistry.registerBlock(crop, crop.getUnlocalizedName());
 		
 		GameRegistry.registerItem(pancakes, pancakes.getUnlocalizedName());
 		GameRegistry.registerItem(bacon, bacon.getUnlocalizedName());
@@ -164,6 +163,7 @@ public class CulinaryCraft {
 		GameRegistry.registerTileEntity(TileEntityHydroponicDistributor.class, "entityDistributor");
 		GameRegistry.registerTileEntity(TileEntityHydroponicReservoir.class, "entityReservoir");
 		GameRegistry.registerTileEntity(TileEntityOven.class, "entityOven");
+		GameRegistry.registerTileEntity(TileEntityCrop.class, "entityCrop");
 		
 		RecipeManager.addShapelessOvenRecipe(new ItemStack(bacon), new Object[]{rawBacon,fryingPan});
 		RecipeManager.addShapelessOvenRecipe(new ItemStack(cookedEgg), new Object[]{Item.egg,fryingPan});

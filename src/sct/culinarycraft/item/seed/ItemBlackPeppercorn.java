@@ -1,18 +1,15 @@
 package sct.culinarycraft.item.seed;
 
-import sct.culinarycraft.CulinaryCraft;
-import sct.culinarycraft.gui.CulinaryCraftCreativeTab;
-import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.item.ItemSeeds;
-import net.minecraftforge.common.IPlantable;
+import net.minecraft.item.Item;
+import sct.culinarycraft.gui.CulinaryCraftCreativeTab;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemBlackPeppercorn extends ItemSeeds implements IPlantable {
+public class ItemBlackPeppercorn extends Item {
 
 	public ItemBlackPeppercorn(int id) {
-		super(id, CulinaryCraft.cropBlackPepper.blockID, Block.tilledField.blockID);
+		super(id);
 		setMaxStackSize(64);
 		setCreativeTab(CulinaryCraftCreativeTab.tab);
 		setUnlocalizedName("culinary.seed.blackpeppercorn");
