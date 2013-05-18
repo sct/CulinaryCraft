@@ -15,6 +15,7 @@ import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.IPlantable;
 import sct.culinarycraft.crop.Crop;
 import sct.culinarycraft.gui.CulinaryCraftCreativeTab;
 import sct.culinarycraft.tile.TileEntityCrop;
@@ -52,20 +53,55 @@ public class CropBase extends BlockCrops implements ITileEntityProvider {
 
 		TileEntity te = world.getBlockTileEntity(x, y, z);
 		if (te != null && te instanceof TileEntityCrop) {
-			if (world.getBlockLightValue(x, y + 1, z) >= 9) {
-				int l = world.getBlockMetadata(x, y, z);
+			if (world.getBlockLightValue(x, y + 1, z) >= 9 && ((TileEntityCrop) te).getHeight() == 1) {
+				int md = world.getBlockMetadata(x, y, z);
 				
 				int stages = ((TileEntityCrop) te).getCrop().getStages();
-				if (l < (stages - 1)) {
+				if (md < (stages - 1)) {
 					float f = getGrowthRate(world, x, y, z);
 
 					if (rand.nextInt((int) (25.0F / f) + 1) == 0) {
-						++l;
-						world.setBlockMetadataWithNotify(x, y, z, l, 2);
+						int height = ((TileEntityCrop) te).getCrop().getHeight();
+						if (height > 1 && ((md + 1) % (stages / height)) == 0) {
+							boolean placed = false;
+							int attempt = 1;
+							while (!placed) {
+								if (world.getBlockId(x, y + attempt, z) != this.blockID) {
+									world.setBlock(x, y + attempt, z, this.blockID);
+									world.setBlockMetadataWithNotify(x, y + attempt, z, md + 1, 2);
+									TileEntity newEntity = world.getBlockTileEntity(x, y + attempt, z);
+									if (newEntity != null && newEntity instanceof TileEntityCrop) {
+										((TileEntityCrop) newEntity).setCrop(((TileEntityCrop) te).getCrop());
+										((TileEntityCrop) newEntity).setHeight(attempt + 1);
+									}
+									
+									placed = true;
+								}
+								
+								attempt++;
+							}
+						}
+						++md;
+						world.setBlockMetadataWithNotify(x, y, z, md, 2);
 					}
 				}
 			}
 		}
+	}
+	
+	@Override
+	public boolean canSustainPlant(World world, int x, int y, int z,
+			ForgeDirection direction, IPlantable plant) {
+		if (world.getBlockId(x, y - 1, z) == world.getBlockId(x, y, z)) return true;
+		
+		return super.canSustainPlant(world, x, y, z, direction, plant);
+	}
+	
+	@Override
+	public boolean canBlockStay(World world, int x, int y, int z) {
+		if (world.getBlockId(x, y - 1, z) == world.getBlockId(x, y, z)) return true;
+		
+		return super.canBlockStay(world, x, y, z);
 	}
 
 	private float getGrowthRate(World par1World, int par2, int par3, int par4) {
@@ -134,10 +170,15 @@ public class CropBase extends BlockCrops implements ITileEntityProvider {
 	}
 
 	@Override
-	public void breakBlock(World par1World, int par2, int par3, int par4,
+	public void breakBlock(World world, int x, int y, int z,
 			int par5, int par6) {
-		super.breakBlock(par1World, par2, par3, par4, par5, par6);
-		par1World.removeBlockTileEntity(par2, par3, par4);
+		TileEntity te = world.getBlockTileEntity(x, y, z);
+		if (te != null && te instanceof TileEntityCrop && ((TileEntityCrop) te).getCrop().getHeight() > 1) {
+			((TileEntityCrop) te).destroyStalk();
+		}
+		
+		super.breakBlock(world, x, y, z, par5, par6);
+		world.removeBlockTileEntity(x, y, z);
 	}
 
 	@Override

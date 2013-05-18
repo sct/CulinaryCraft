@@ -33,7 +33,15 @@ public class CropRenderer extends TileEntitySpecialRenderer implements
 		Tessellator tessellator = Tessellator.instance;
 		tessellator.startDrawingQuads();
 		tessellator.setNormal(1.0F, 1.0F, 1.0F);
-		Icon icon = ((TileEntityCrop) te).getCrop().getIcon(te.worldObj.getBlockMetadata(te.xCoord, te.yCoord, te.zCoord));
+		
+		int md = 0;
+		if (((TileEntityCrop) te).getHeight() > 1) {
+			md = te.worldObj.getBlockMetadata(te.xCoord, te.yCoord - (((TileEntityCrop) te).getHeight() - 1), te.zCoord);
+		} else {
+			md = te.worldObj.getBlockMetadata(te.xCoord, te.yCoord, te.zCoord);
+		}
+		
+		Icon icon = ((TileEntityCrop) te).getIcon(md);
 
 		tessellator.setBrightness(CulinaryCraft.crop
 				.getMixedBrightnessForBlock((IBlockAccess) te.worldObj,

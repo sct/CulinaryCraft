@@ -18,7 +18,7 @@ public class ItemBlockCrop extends ItemBlock {
 		super(id);
 		setHasSubtypes(true);
 		setMaxDamage(0);
-		setNames(new String[] { "coffea", "blackpepper" });
+		setNames(new String[] { "coffea", "blackpepper", "corn" });
 	}
 
 	@Override

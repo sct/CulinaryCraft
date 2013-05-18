@@ -11,6 +11,7 @@ import net.minecraft.util.Icon;
 public class Crop {
 	public static Crop coffea = new Crop(5, "coffea", CulinaryCraft.seedCoffeaSeed.itemID, CulinaryCraft.seedCoffeaSeed.itemID);
 	public static Crop blackPepper = new Crop(8, "blackpepper", CulinaryCraft.seedBlackPeppercorn.itemID, CulinaryCraft.seedBlackPeppercorn.itemID);
+	public static Crop corn = new Crop(6, 3, "corn", CulinaryCraft.seedBlackPeppercorn.itemID, false, CulinaryCraft.seedBlackPeppercorn.itemID);
 	
 	public static List<Crop> crops;
 	
@@ -79,20 +80,21 @@ public class Crop {
 	}
 	
 	public void loadIcons(IconRegister ir) {
-		for (int i = 0; i < icons.length; i++) {
-			for (int j = 0; j < height; j++) {
-				icons[j][i] = ir.registerIcon("crop_" + getInternalName() + "_" + i + "_" + j); // ex: crop_coffea_0_0.png in blocks
+		for (int i = 0; i < height; i++) {
+			for (int j = 0; j < stages; j++) {
+				if (j / (stages / height) >= i || isAlwaysTall())
+					icons[i][j] = ir.registerIcon("crop_" + getInternalName() + "_" + j + "_" + i); // ex: crop_coffea_0_0.png in blocks
 			}
 		}
 	}
 	
 	public Icon getIcon(int stage) {
-		return getIcon(stage, 0);
+		return getIcon(stage, 1);
 	}
 	
 	public Icon getIcon(int stage, int height) {
 		if (stage > stages - 1) stage = stages - 1;
-		if (height > height - 1) height = height - 1;
+		height--;
 		return icons[height][stage];
 	}
 }
