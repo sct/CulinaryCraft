@@ -18,16 +18,18 @@ public class Crop {
 	private int height;
 	private int cropId;
 	private int seedId;
+	private boolean alwaysTall;
 	private String internalName;
-	private Icon[] icons;
+	private Icon[][] icons;
 	
-	public Crop(int stages, int height, String internalName, int cropId, int seedId) {
+	public Crop(int stages, int height, String internalName, int cropId, boolean alwaysTall, int seedId) {
 		this.stages = stages;
 		this.height = height;
 		this.internalName = internalName;
 		this.cropId = cropId;
 		this.seedId = seedId;
-		this.icons = new Icon[stages];
+		this.alwaysTall = alwaysTall;
+		this.icons = new Icon[height][stages];
 		
 		if (crops == null) crops = new ArrayList<Crop>();
 		
@@ -35,7 +37,7 @@ public class Crop {
 	}
 	
 	public Crop(int stages, String internalName, int cropId, int seedId) {
-		this(stages, 1, internalName, cropId, seedId);
+		this(stages, 1, internalName, cropId, false, seedId);
 	}
 	
 	public static List<Crop> values() {
@@ -72,14 +74,25 @@ public class Crop {
 		return seedId;
 	}
 	
+	public boolean isAlwaysTall() {
+		return alwaysTall;
+	}
+	
 	public void loadIcons(IconRegister ir) {
 		for (int i = 0; i < icons.length; i++) {
-			icons[i] = ir.registerIcon("crop_" + getInternalName() + "_" + i); // ex: crop_coffea_0.png in blocks
+			for (int j = 0; j < height; j++) {
+				icons[j][i] = ir.registerIcon("crop_" + getInternalName() + "_" + i + "_" + j); // ex: crop_coffea_0_0.png in blocks
+			}
 		}
 	}
 	
 	public Icon getIcon(int stage) {
+		return getIcon(stage, 0);
+	}
+	
+	public Icon getIcon(int stage, int height) {
 		if (stage > stages - 1) stage = stages - 1;
-		return icons[stage];
+		if (height > height - 1) height = height - 1;
+		return icons[height][stage];
 	}
 }
