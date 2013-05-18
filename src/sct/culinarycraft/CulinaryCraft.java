@@ -12,7 +12,8 @@ import sct.culinarycraft.block.BlockHydroponicDistributor;
 import sct.culinarycraft.block.BlockHydroponicReservoir;
 import sct.culinarycraft.block.BlockKitchenTile;
 import sct.culinarycraft.block.BlockOven;
-import sct.culinarycraft.block.crop.CropBase;
+import sct.culinarycraft.block.CropBase;
+import sct.culinarycraft.block.ItemBlockCrop;
 import sct.culinarycraft.event.EventHandler;
 import sct.culinarycraft.gui.GuiHandler;
 import sct.culinarycraft.item.ItemBacon;
@@ -142,7 +143,7 @@ public class CulinaryCraft {
 		GameRegistry.registerBlock(countertop, countertop.getUnlocalizedName());
 		GameRegistry.registerBlock(reservoir, reservoir.getUnlocalizedName());
 		GameRegistry.registerBlock(distributor, distributor.getUnlocalizedName());
-		GameRegistry.registerBlock(crop, crop.getUnlocalizedName());
+		GameRegistry.registerBlock(crop, ItemBlockCrop.class,crop.getUnlocalizedName());
 		
 		GameRegistry.registerItem(pancakes, pancakes.getUnlocalizedName());
 		GameRegistry.registerItem(bacon, bacon.getUnlocalizedName());

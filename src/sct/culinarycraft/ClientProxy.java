@@ -1,7 +1,7 @@
 package sct.culinarycraft;
 
 import sct.culinarycraft.block.BlockHydroponicDistributor;
-import sct.culinarycraft.block.crop.CropBase;
+import sct.culinarycraft.block.CropBase;
 import sct.culinarycraft.renderer.CounterRenderer;
 import sct.culinarycraft.renderer.CropRenderer;
 import sct.culinarycraft.renderer.DistributorRenderer;

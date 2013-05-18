@@ -5,6 +5,7 @@ import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.common.ForgeDirection;
@@ -29,8 +30,12 @@ public class ItemCoffeaSeed extends Item implements IPlantable {
 		itemIcon = iconRegister.registerIcon("coffeaSeed");
 	}
 	
+	public Icon getItemIcon() {
+		return itemIcon;
+	}
+	
 	@Override
-	public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10)
+	public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World world, int par4, int par5, int par6, int par7, float par8, float par9, float par10)
     {
         if (par7 != 1)
         {
@@ -38,12 +43,12 @@ public class ItemCoffeaSeed extends Item implements IPlantable {
         }
         else if (par2EntityPlayer.canPlayerEdit(par4, par5, par6, par7, par1ItemStack) && par2EntityPlayer.canPlayerEdit(par4, par5 + 1, par6, par7, par1ItemStack))
         {
-            int i1 = par3World.getBlockId(par4, par5, par6);
+            int i1 = world.getBlockId(par4, par5, par6);
             Block soil = Block.blocksList[i1];
 
-            if (soil != null && soil.canSustainPlant(par3World, par4, par5, par6, ForgeDirection.UP, this) && par3World.isAirBlock(par4, par5 + 1, par6))
+            if (soil != null && soil.canSustainPlant(world, par4, par5, par6, ForgeDirection.UP, this) && world.isAirBlock(par4, par5 + 1, par6))
             {
-                par3World.setBlock(par4, par5 + 1, par6, CulinaryCraft.crop.blockID);
+                world.setBlock(par4, par5 + 1, par6, CulinaryCraft.crop.blockID);
                 --par1ItemStack.stackSize;
                 return true;
             }
