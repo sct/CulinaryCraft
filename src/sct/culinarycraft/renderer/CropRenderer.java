@@ -27,19 +27,23 @@ public class CropRenderer extends TileEntitySpecialRenderer implements
 	@Override
 	public void renderTileEntityAt(TileEntity te, double x, double y, double z,
 			float f) {
+		
+		int md = 0;
+		if (((TileEntityCrop) te).getHeight() > 1) {
+			if (te.worldObj.getBlockId(te.xCoord, te.yCoord - (((TileEntityCrop) te).getHeight() - 1), te.zCoord) == 0) {
+				return;
+			}
+			md = te.worldObj.getBlockMetadata(te.xCoord, te.yCoord - (((TileEntityCrop) te).getHeight() - 1), te.zCoord);
+		} else {
+			md = te.worldObj.getBlockMetadata(te.xCoord, te.yCoord, te.zCoord);
+		}
+		
 		GL11.glPushMatrix();
 		FMLClientHandler.instance().getClient().renderEngine
 				.bindTexture("/terrain.png");
 		Tessellator tessellator = Tessellator.instance;
 		tessellator.startDrawingQuads();
 		tessellator.setNormal(1.0F, 1.0F, 1.0F);
-		
-		int md = 0;
-		if (((TileEntityCrop) te).getHeight() > 1) {
-			md = te.worldObj.getBlockMetadata(te.xCoord, te.yCoord - (((TileEntityCrop) te).getHeight() - 1), te.zCoord);
-		} else {
-			md = te.worldObj.getBlockMetadata(te.xCoord, te.yCoord, te.zCoord);
-		}
 		
 		Icon icon = ((TileEntityCrop) te).getIcon(md);
 

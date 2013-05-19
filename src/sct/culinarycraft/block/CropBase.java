@@ -2,13 +2,13 @@ package sct.culinarycraft.block;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.logging.Level;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
@@ -16,6 +16,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.IPlantable;
+import sct.culinarycraft.CulinaryCraft;
 import sct.culinarycraft.crop.Crop;
 import sct.culinarycraft.gui.CulinaryCraftCreativeTab;
 import sct.culinarycraft.tile.TileEntityCrop;
@@ -55,7 +56,9 @@ public class CropBase extends BlockCrops implements ITileEntityProvider {
 		if (te != null && te instanceof TileEntityCrop) {
 			if (world.getBlockLightValue(x, y + 1, z) >= 9 && ((TileEntityCrop) te).getHeight() == 1) {
 				int md = world.getBlockMetadata(x, y, z);
-				
+				if (md == 5) {
+					CulinaryCraft.logger.log(Level.INFO, "Growth = 5 @ " + te.xCoord + ", " + te.yCoord + ", " + te.zCoord);
+				}
 				int stages = ((TileEntityCrop) te).getCrop().getStages();
 				if (md < (stages - 1)) {
 					float f = getGrowthRate(world, x, y, z);
@@ -98,8 +101,15 @@ public class CropBase extends BlockCrops implements ITileEntityProvider {
 	}
 	
 	@Override
+	public boolean canPlaceBlockAt(World world, int x, int y, int z) {
+		if (world.getBlockId(x, y - 1, z) == CulinaryCraft.crop.blockID) return false;
+		
+		return super.canPlaceBlockAt(world, x, y, z);
+	}
+	
+	@Override
 	public boolean canBlockStay(World world, int x, int y, int z) {
-		if (world.getBlockId(x, y - 1, z) == world.getBlockId(x, y, z)) return true;
+		if (world.getBlockId(x, y - 1, z) == CulinaryCraft.crop.blockID) return true;
 		
 		return super.canBlockStay(world, x, y, z);
 	}
@@ -152,20 +162,7 @@ public class CropBase extends BlockCrops implements ITileEntityProvider {
 	@Override
 	public ArrayList<ItemStack> getBlockDropped(World world, int x, int y,
 			int z, int metadata, int fortune) {
-		ArrayList<ItemStack> ret = super.getBlockDropped(world, x, y, z,
-				metadata, fortune);
-
-		TileEntity te = world.getBlockTileEntity(x, y, z);
-		if (te != null && te instanceof TileEntityCrop) {
-			if (metadata >= (((TileEntityCrop) te).getCrop().getStages() - 1)) {
-				for (int n = 0; n < 3 + fortune; n++) {
-					if (world.rand.nextInt(15) <= metadata) {
-						ret.add(new ItemStack(Item.itemsList[((TileEntityCrop) te).getCrop().getCropId()], 1, 0));
-					}
-				}
-			}
-		}
-
+		ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
 		return ret;
 	}
 
@@ -175,6 +172,16 @@ public class CropBase extends BlockCrops implements ITileEntityProvider {
 		TileEntity te = world.getBlockTileEntity(x, y, z);
 		if (te != null && te instanceof TileEntityCrop && ((TileEntityCrop) te).getCrop().getHeight() > 1) {
 			((TileEntityCrop) te).destroyStalk();
+		}
+		
+		if (!world.isRemote && te != null && te instanceof TileEntityCrop 
+				&& world.getBlockMetadata(x, y, z) >= (((TileEntityCrop) te).getCrop().getStages() - 1)) {
+			for (int i = 0; i < 3; i++) {
+				dropBlockAsItem_do(world, x, y, z, ((TileEntityCrop) te).getSeedStack());
+				if (world.rand.nextFloat() > 0.6f) {
+					dropBlockAsItem_do(world, x, y, z, ((TileEntityCrop) te).getSeedStack());
+				}
+			}
 		}
 		
 		super.breakBlock(world, x, y, z, par5, par6);

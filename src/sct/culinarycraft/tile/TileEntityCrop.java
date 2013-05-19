@@ -1,12 +1,14 @@
 package sct.culinarycraft.tile;
 
 import net.minecraft.block.Block;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
+import sct.culinarycraft.CulinaryCraft;
 import sct.culinarycraft.block.CropBase;
 import sct.culinarycraft.crop.Crop;
 import cpw.mods.fml.common.network.PacketDispatcher;
@@ -19,6 +21,14 @@ public class TileEntityCrop extends TileEntity {
 		this.crop = Crop.coffea;
 	}
 	
+	public ItemStack getSeedStack() {
+		return new ItemStack(CulinaryCraft.crop,1,Crop.values().indexOf(getCrop()));
+	}
+	
+	public ItemStack getCropStack() {
+		return new ItemStack(getCrop().getCropId(), 1, 0);
+	}
+	
 	public Crop getCrop() {
 		return crop;
 	}
@@ -28,12 +38,11 @@ public class TileEntityCrop extends TileEntity {
 	}
 	
 	public void destroyStalk() {
-		for (int y = 0; y < getCrop().getHeight(); y++) {
-			int yOffset = yCoord - (y - (getHeight() - 1));
-			if (yCoord != yOffset && Block.blocksList[worldObj.getBlockId(xCoord, yOffset, zCoord)] instanceof CropBase) {
-				worldObj.setBlock(xCoord, yOffset, zCoord, 0);
-				worldObj.removeBlockTileEntity(xCoord, yOffset, zCoord);
-			}
+		int i = 1;
+		while (Block.blocksList[worldObj.getBlockId(xCoord, yCoord - i, zCoord)] instanceof CropBase) {
+			worldObj.setBlockToAir(xCoord, yCoord - i, zCoord);
+			worldObj.removeBlockTileEntity(xCoord, yCoord - i, zCoord);
+			++i;
 		}
 	}
 	
