@@ -11,7 +11,8 @@ import net.minecraft.util.Icon;
 public class Crop {
 	public static Crop coffea = new Crop(5, "coffea", CulinaryCraft.seedCoffeaSeed.itemID, CulinaryCraft.seedCoffeaSeed.itemID);
 	public static Crop blackPepper = new Crop(8, "blackpepper", CulinaryCraft.seedBlackPeppercorn.itemID, CulinaryCraft.seedBlackPeppercorn.itemID);
-	public static Crop corn = new Crop(6, 3, "corn", CulinaryCraft.seedBlackPeppercorn.itemID, false, CulinaryCraft.seedBlackPeppercorn.itemID);
+	public static Crop corn = new Crop(6, 3, "corn", CulinaryCraft.seedBlackPeppercorn.itemID, false, CulinaryCraft.seedBlackPeppercorn.itemID, 0);
+	public static Crop grape = new Crop(4, 2, "grape", CulinaryCraft.seedCoffeaSeed.itemID, true, CulinaryCraft.seedCoffeaSeed.itemID, 1);
 	
 	public static List<Crop> crops;
 	
@@ -19,18 +20,26 @@ public class Crop {
 	private int height;
 	private int cropId;
 	private int seedId;
+	private int specialRenderer;
 	private boolean alwaysTall;
 	private String internalName;
 	private Icon[][] icons;
+	private Icon seedIcon;
+	private Icon[] specialIcons;
 	
-	public Crop(int stages, int height, String internalName, int cropId, boolean alwaysTall, int seedId) {
+	public Crop(int stages, int height, String internalName, int cropId, boolean alwaysTall, int seedId, int specialRenderer) {
 		this.stages = stages;
 		this.height = height;
 		this.internalName = internalName;
 		this.cropId = cropId;
 		this.seedId = seedId;
+		this.specialRenderer = specialRenderer;
 		this.alwaysTall = alwaysTall;
 		this.icons = new Icon[height][stages];
+		
+		if (specialRenderer == 1) {
+			this.specialIcons = new Icon[2];
+		}
 		
 		if (crops == null) crops = new ArrayList<Crop>();
 		
@@ -38,7 +47,7 @@ public class Crop {
 	}
 	
 	public Crop(int stages, String internalName, int cropId, int seedId) {
-		this(stages, 1, internalName, cropId, false, seedId);
+		this(stages, 1, internalName, cropId, false, seedId, 0);
 	}
 	
 	public static List<Crop> values() {
@@ -79,13 +88,38 @@ public class Crop {
 		return alwaysTall;
 	}
 	
+	public int getSpecialRenderer() {
+		return specialRenderer;
+	}
+	
 	public void loadIcons(IconRegister ir) {
+		seedIcon = ir.registerIcon("crop_" + getInternalName() + "_seed");
+		
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < stages; j++) {
 				if (j / (stages / height) >= i || isAlwaysTall())
 					icons[i][j] = ir.registerIcon("crop_" + getInternalName() + "_" + j + "_" + i); // ex: crop_coffea_0_0.png in blocks
 			}
 		}
+		
+		if (getSpecialRenderer() == 1) {
+			specialIcons[0] = ir.registerIcon("crop_grape_tree_0");
+			specialIcons[1] = ir.registerIcon("crop_grape_tree_1");
+		}
+	}
+	
+	public Icon getSeedIcon() {
+		return seedIcon;
+	}
+	
+	/**
+	 * This should only be called by the renderer for crops it knows how to handle. Otherwise, explosions.
+	 * 
+	 * @param index
+	 * @return
+	 */
+	public Icon getSpecialIcon(int index) {
+		return specialIcons[index];
 	}
 	
 	public Icon getIcon(int stage) {

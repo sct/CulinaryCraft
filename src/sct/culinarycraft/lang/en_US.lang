@@ -4,8 +4,9 @@ tile.culinary.machine.countertop.name = Countertop
 tile.culinary.machine.dehydrator.name = Dehydrator
 tile.culinary.machine.oven.name = Oven
 tile.culinary.decorative.name = Kitchen Tile
-tile.culinary.crop.coffea.name = Coffea
-tile.culinary.crop.blackpepper.name = Black Pepper
+tile.culinary.crop.coffea.name = Coffea Seed
+tile.culinary.crop.blackpepper.name = Black Pepper Seed
+tile.culinary.crop.corn.name = Corn Seed
 
 item.culinary.bacon.name = Bacon
 item.culinary.cookedegg.name = Cooked Egg

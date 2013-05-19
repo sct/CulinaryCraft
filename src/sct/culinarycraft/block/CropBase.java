@@ -2,7 +2,6 @@ package sct.culinarycraft.block;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.logging.Level;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCrops;
@@ -30,7 +29,8 @@ public class CropBase extends BlockCrops implements ITileEntityProvider {
 	public CropBase(int id) {
 		super(id);
 		setCreativeTab(CulinaryCraftCreativeTab.tab);
-		setUnlocalizedName("crop");
+		setBlockBounds(0, 0, 0, 1.0F, 1.0F, 1.0F);
+		setUnlocalizedName("culinary.crop");
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public class CropBase extends BlockCrops implements ITileEntityProvider {
 	}
 	
 	public Icon getSeedIcon(int index) {
-		return Crop.getCropFromIndex(index).getIcon(0);
+		return Crop.getCropFromIndex(index).getSeedIcon();
 	}
 
 	@Override
@@ -56,16 +56,14 @@ public class CropBase extends BlockCrops implements ITileEntityProvider {
 		if (te != null && te instanceof TileEntityCrop) {
 			if (world.getBlockLightValue(x, y + 1, z) >= 9 && ((TileEntityCrop) te).getHeight() == 1) {
 				int md = world.getBlockMetadata(x, y, z);
-				if (md == 5) {
-					CulinaryCraft.logger.log(Level.INFO, "Growth = 5 @ " + te.xCoord + ", " + te.yCoord + ", " + te.zCoord);
-				}
 				int stages = ((TileEntityCrop) te).getCrop().getStages();
 				if (md < (stages - 1)) {
 					float f = getGrowthRate(world, x, y, z);
 
 					if (rand.nextInt((int) (25.0F / f) + 1) == 0) {
 						int height = ((TileEntityCrop) te).getCrop().getHeight();
-						if (height > 1 && ((md + 1) % (stages / height)) == 0) {
+						if (!((TileEntityCrop) te).getCrop().isAlwaysTall() && height > 1 
+								&& ((md + 1) % (stages / height)) == 0) {
 							boolean placed = false;
 							int attempt = 1;
 							while (!placed) {
@@ -203,6 +201,17 @@ public class CropBase extends BlockCrops implements ITileEntityProvider {
 		TileEntity te = world.getBlockTileEntity(x, y, z);
 		if (te != null && te instanceof TileEntityCrop) {
 			((TileEntityCrop) te).setCropByIndex(stack.getItemDamage());
+			if (((TileEntityCrop) te).getCrop().isAlwaysTall()) {
+				for (int i = 1; i < ((TileEntityCrop) te).getCrop().getHeight(); i++) {
+					world.setBlock(x, y + i, z, this.blockID);
+					world.setBlockMetadataWithNotify(x, y + i, z, 0, 2);
+					TileEntity newEntity = world.getBlockTileEntity(x, y + i, z);
+					if (newEntity != null && newEntity instanceof TileEntityCrop) {
+						((TileEntityCrop) newEntity).setCrop(((TileEntityCrop) te).getCrop());
+						((TileEntityCrop) newEntity).setHeight(i + 1);
+					}
+				}
+			}
 		}
 	}
 
