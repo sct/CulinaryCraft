@@ -27,7 +27,8 @@ public class TileEntityCountertop extends TileEntityMachinePowered {
 	public void updateEntity() {
 		super.updateEntity();
 		
-		if (currentRecipe != null && (isPowered() || !currentRecipe.isPowerConsumer()) && cookTime > 0) {
+		if (currentRecipe != null && (isPowered() || !currentRecipe.isPowerConsumer()) && cookTime > 0
+				&& (getStackInSlot(3) == null || this.getStackInSlot(3).getItem().equals(currentRecipe.getResult().getItem()))) {
 			cookTime--;
 			if (cookTime == 1) {
 				ItemStack result = currentRecipe.getResult().copy();
@@ -39,10 +40,15 @@ public class TileEntityCountertop extends TileEntityMachinePowered {
 						item.stackSize--;
 					}
 				}
-				this.setInventorySlotContents(3, result);
+				if (getStackInSlot(3) != null && getStackInSlot(3).getItem().equals(currentRecipe.getResult().getItem())) {
+					getStackInSlot(3).stackSize++;
+				} else {
+					this.setInventorySlotContents(3, result);
+				}
 				cookTime = 0;
 				currentRecipe = null;
 				setWorking(false);
+				checkRecipes();
 			}
 		}
 	}

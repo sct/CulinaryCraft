@@ -36,7 +36,7 @@ public class TileEntityHydroponicDistributor extends TileEntityMachine implement
 			activeState = true;
 			tick++;
 			
-			if (tick >= 20) {
+			if (tick >= 40) {
 				tank.drain(1 * connectedReservoirs.size(), true);
 				tick = 0;
 			}

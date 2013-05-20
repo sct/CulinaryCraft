@@ -57,6 +57,15 @@ public class CropBase extends BlockCrops implements ITileEntityProvider {
 			if (world.getBlockLightValue(x, y + 1, z) >= 9 && ((TileEntityCrop) te).getHeight() == 1) {
 				int md = world.getBlockMetadata(x, y, z);
 				int stages = ((TileEntityCrop) te).getCrop().getStages();
+				int maxHeight = ((TileEntityCrop) te).getCrop().getHeight();
+				
+				/* Check if enough space to grow entire plant */
+				for (int i = 1; i < maxHeight; i++) {
+					if (!(world.getBlockId(x, y + i, z) == CulinaryCraft.crop.blockID || world.getBlockId(x, y + i, z) == 0)) {
+						return;
+					}
+				}
+				
 				if (md < (stages - 1)) {
 					float f = getGrowthRate(world, x, y, z);
 
@@ -203,12 +212,18 @@ public class CropBase extends BlockCrops implements ITileEntityProvider {
 			((TileEntityCrop) te).setCropByIndex(stack.getItemDamage());
 			if (((TileEntityCrop) te).getCrop().isAlwaysTall()) {
 				for (int i = 1; i < ((TileEntityCrop) te).getCrop().getHeight(); i++) {
-					world.setBlock(x, y + i, z, this.blockID);
-					world.setBlockMetadataWithNotify(x, y + i, z, 0, 2);
-					TileEntity newEntity = world.getBlockTileEntity(x, y + i, z);
-					if (newEntity != null && newEntity instanceof TileEntityCrop) {
-						((TileEntityCrop) newEntity).setCrop(((TileEntityCrop) te).getCrop());
-						((TileEntityCrop) newEntity).setHeight(i + 1);
+					if (world.getBlockId(x, y + i, z) == 0) {
+						world.setBlock(x, y + i, z, this.blockID);
+						world.setBlockMetadataWithNotify(x, y + i, z, 0, 2);
+						TileEntity newEntity = world.getBlockTileEntity(x, y + i, z);
+						if (newEntity != null && newEntity instanceof TileEntityCrop) {
+							((TileEntityCrop) newEntity).setCrop(((TileEntityCrop) te).getCrop());
+							((TileEntityCrop) newEntity).setHeight(i + 1);
+						}
+					} else {
+						((TileEntityCrop) te).destroyStalk();
+						dropBlockAsItem_do(world, x, y, z, ((TileEntityCrop) te).getSeedStack());
+						world.setBlockToAir(x, y, z);
 					}
 				}
 			}
