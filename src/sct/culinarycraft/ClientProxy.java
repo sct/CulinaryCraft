@@ -1,5 +1,8 @@
 package sct.culinarycraft;
 
+import net.minecraftforge.client.event.TextureStitchEvent.Post;
+import net.minecraftforge.event.ForgeSubscribe;
+import net.minecraftforge.liquids.LiquidDictionary;
 import sct.culinarycraft.block.BlockHydroponicDistributor;
 import sct.culinarycraft.block.CropBase;
 import sct.culinarycraft.renderer.CounterRenderer;
@@ -30,5 +33,11 @@ public class ClientProxy extends CommonProxy {
 		
 		RenderingRegistry.registerBlockHandler(distRender);
 		RenderingRegistry.registerBlockHandler(cropRender);
+	}
+	
+	@Override
+	@ForgeSubscribe
+	public void onPostTextureStichEvent(Post e) {
+		LiquidDictionary.getCanonicalLiquid("wine").setRenderingIcon(CulinaryCraft.wine.getBlockTextureFromSide(1)).setTextureSheet("/terrain.png");
 	}
 }

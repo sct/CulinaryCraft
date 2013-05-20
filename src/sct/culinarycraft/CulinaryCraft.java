@@ -5,7 +5,16 @@ import java.util.logging.Logger;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.ForgeSubscribe;
+import net.minecraftforge.event.Event.Result;
+import net.minecraftforge.event.entity.player.FillBucketEvent;
+import net.minecraftforge.liquids.LiquidContainerData;
+import net.minecraftforge.liquids.LiquidContainerRegistry;
+import net.minecraftforge.liquids.LiquidDictionary;
+import net.minecraftforge.liquids.LiquidStack;
 import sct.culinarycraft.block.BlockCountertop;
 import sct.culinarycraft.block.BlockDehydrator;
 import sct.culinarycraft.block.BlockHydroponicDistributor;
@@ -14,6 +23,7 @@ import sct.culinarycraft.block.BlockKitchenTile;
 import sct.culinarycraft.block.BlockOven;
 import sct.culinarycraft.block.CropBase;
 import sct.culinarycraft.block.ItemBlockCrop;
+import sct.culinarycraft.block.liquid.LiquidWine;
 import sct.culinarycraft.event.EventHandler;
 import sct.culinarycraft.gui.GuiHandler;
 import sct.culinarycraft.item.ItemBacon;
@@ -22,11 +32,13 @@ import sct.culinarycraft.item.ItemCookedEgg;
 import sct.culinarycraft.item.ItemCuttingBoard;
 import sct.culinarycraft.item.ItemFryingPan;
 import sct.culinarycraft.item.ItemHandMixer;
+import sct.culinarycraft.item.ItemIngredient;
 import sct.culinarycraft.item.ItemMicrowave;
 import sct.culinarycraft.item.ItemPancakes;
 import sct.culinarycraft.item.ItemRawBacon;
 import sct.culinarycraft.item.ItemSalt;
 import sct.culinarycraft.item.ItemStandMixer;
+import sct.culinarycraft.item.ItemWineBucket;
 import sct.culinarycraft.item.seed.ItemBlackPeppercorn;
 import sct.culinarycraft.item.seed.ItemCoffeaSeed;
 import sct.culinarycraft.net.ClientPacketHandler;
@@ -79,6 +91,7 @@ public class CulinaryCraft {
 	public static Block crop;
 	public static Block cropCoffea;
 	public static Block cropBlackPepper;
+	public static Block wine;
 	
 	public static Item pancakes;
 	public static Item bacon;
@@ -92,6 +105,10 @@ public class CulinaryCraft {
 	public static Item standMixer;
 	public static Item microwave;
 	public static Item coffeeMachine;
+	public static Item wineBucket;
+	
+	public static Item corn;
+	public static Item grape;
 	
 	public static Item seedBlackPeppercorn;
 	public static Item seedCoffeaSeed;
@@ -120,6 +137,7 @@ public class CulinaryCraft {
 		reservoir = new BlockHydroponicReservoir(CulinaryCraftConfig.reservoirBlockId.getInt());
 		distributor = new BlockHydroponicDistributor(CulinaryCraftConfig.distributorBlockId.getInt());
 		crop = new CropBase(CulinaryCraftConfig.coffeaBlockId.getInt());
+		wine = new LiquidWine(3300);
 		
 		
 		pancakes = new ItemPancakes(CulinaryCraftConfig.pancakesItemId.getInt());
@@ -133,6 +151,10 @@ public class CulinaryCraft {
 		standMixer = new ItemStandMixer(CulinaryCraftConfig.standMixerItemId.getInt());
 		microwave = new ItemMicrowave(CulinaryCraftConfig.microwaveItemId.getInt());
 		coffeeMachine = new ItemCoffeeMachine(CulinaryCraftConfig.coffeeMachineItemId.getInt());
+		wineBucket = new ItemWineBucket(24000, wine.blockID);
+		
+		corn = new ItemIngredient(24001).setUnlocalizedName("cornstalk");
+		grape = new ItemIngredient(24002).setUnlocalizedName("grape");
 		
 		seedCoffeaSeed = new ItemCoffeaSeed(CulinaryCraftConfig.coffeaSeedItemId.getInt());
 		seedBlackPeppercorn = new ItemBlackPeppercorn(CulinaryCraftConfig.blackPeppercornItemId.getInt());
@@ -144,20 +166,7 @@ public class CulinaryCraft {
 		GameRegistry.registerBlock(reservoir, reservoir.getUnlocalizedName());
 		GameRegistry.registerBlock(distributor, distributor.getUnlocalizedName());
 		GameRegistry.registerBlock(crop, ItemBlockCrop.class,crop.getUnlocalizedName());
-		
-		GameRegistry.registerItem(pancakes, pancakes.getUnlocalizedName());
-		GameRegistry.registerItem(bacon, bacon.getUnlocalizedName());
-		GameRegistry.registerItem(handMixer, handMixer.getUnlocalizedName());
-		GameRegistry.registerItem(fryingPan, fryingPan.getUnlocalizedName());
-		GameRegistry.registerItem(rawBacon, rawBacon.getUnlocalizedName());
-		GameRegistry.registerItem(cookedEgg, cookedEgg.getUnlocalizedName());
-		GameRegistry.registerItem(salt, salt.getUnlocalizedName());
-		GameRegistry.registerItem(cuttingBoard, cuttingBoard.getUnlocalizedName());
-		GameRegistry.registerItem(standMixer, standMixer.getUnlocalizedName());
-		GameRegistry.registerItem(microwave, microwave.getUnlocalizedName());
-		
-		GameRegistry.registerItem(seedBlackPeppercorn, seedBlackPeppercorn.getUnlocalizedName());
-		GameRegistry.registerItem(seedCoffeaSeed, seedCoffeaSeed.getUnlocalizedName());
+		GameRegistry.registerBlock(wine, wine.getUnlocalizedName());
 		
 		GameRegistry.registerTileEntity(TileEntityCountertop.class, "entityCountertop");
 		GameRegistry.registerTileEntity(TileEntityDehydrator.class, "entityDehydrator");
@@ -173,11 +182,40 @@ public class CulinaryCraft {
 		
 		NetworkRegistry.instance().registerGuiHandler(this, new GuiHandler());
 		
+		MinecraftForge.EVENT_BUS.register(instance);
+		MinecraftForge.EVENT_BUS.register(proxy);
 		proxy.init();
 	}
 	
 	@PostInit
 	public void postInit(FMLPostInitializationEvent event) {
+		LiquidStack wineStack = new LiquidStack(wine, LiquidContainerRegistry.BUCKET_VOLUME);
+		wineStack.setRenderingIcon(wine.getIcon(0, 0));
 		
+		LiquidContainerRegistry.registerLiquid(new LiquidContainerData(LiquidDictionary.getOrCreateLiquid("wine", wineStack), new ItemStack(wineBucket), new ItemStack(Item.bucketEmpty)));
+		
+	}
+	
+	@ForgeSubscribe
+	public void onBucketFill(FillBucketEvent e)
+	{
+		if(e.current.itemID != Item.bucketEmpty.itemID)
+		{
+			return;
+		}
+		ItemStack filledBucket = fillBucket(e.world, e.target);
+		if(filledBucket != null)
+		{
+			e.world.setBlockToAir(e.target.blockX, e.target.blockY, e.target.blockZ);
+			e.result = filledBucket;
+			e.setResult(Result.ALLOW);
+		}
+	}
+	
+	private ItemStack fillBucket(World world, MovingObjectPosition block)
+	{
+		int blockId = world.getBlockId(block.blockX, block.blockY, block.blockZ);
+		if(blockId == wine.blockID) return new ItemStack(wineBucket);
+		else return null;
 	}
 }

@@ -3,23 +3,22 @@ package sct.culinarycraft.crop;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.Icon;
 import sct.culinarycraft.CulinaryCraft;
 
-import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.util.Icon;
-
 public class Crop {
-	public static Crop coffea = new Crop(5, "coffea", CulinaryCraft.seedCoffeaSeed.itemID, CulinaryCraft.seedCoffeaSeed.itemID);
-	public static Crop blackPepper = new Crop(8, "blackpepper", CulinaryCraft.seedBlackPeppercorn.itemID, CulinaryCraft.seedBlackPeppercorn.itemID);
-	public static Crop corn = new Crop(6, 3, "corn", CulinaryCraft.seedBlackPeppercorn.itemID, false, CulinaryCraft.seedBlackPeppercorn.itemID, 0);
-	public static Crop grape = new Crop(4, 2, "grape", CulinaryCraft.seedCoffeaSeed.itemID, true, CulinaryCraft.seedCoffeaSeed.itemID, 1);
+	public static Crop coffea = new Crop(5, "coffea", new ItemStack(CulinaryCraft.crop, 1, 0));
+	public static Crop blackPepper = new Crop(8, "blackpepper", new ItemStack(CulinaryCraft.crop, 1, 1));
+	public static Crop corn = new Crop(6, 3, "corn", new ItemStack(CulinaryCraft.corn), false, 0);
+	public static Crop grape = new Crop(4, 2, "grape", new ItemStack(CulinaryCraft.grape), true, 1);
 	
 	public static List<Crop> crops;
 	
 	private int stages;
 	private int height;
-	private int cropId;
-	private int seedId;
+	private ItemStack crop;
 	private int specialRenderer;
 	private boolean alwaysTall;
 	private String internalName;
@@ -27,12 +26,11 @@ public class Crop {
 	private Icon seedIcon;
 	private Icon[] specialIcons;
 	
-	public Crop(int stages, int height, String internalName, int cropId, boolean alwaysTall, int seedId, int specialRenderer) {
+	public Crop(int stages, int height, String internalName, ItemStack crop, boolean alwaysTall, int specialRenderer) {
 		this.stages = stages;
 		this.height = height;
 		this.internalName = internalName;
-		this.cropId = cropId;
-		this.seedId = seedId;
+		this.crop = crop;
 		this.specialRenderer = specialRenderer;
 		this.alwaysTall = alwaysTall;
 		this.icons = new Icon[height][stages];
@@ -46,8 +44,8 @@ public class Crop {
 		crops.add(this);
 	}
 	
-	public Crop(int stages, String internalName, int cropId, int seedId) {
-		this(stages, 1, internalName, cropId, false, seedId, 0);
+	public Crop(int stages, String internalName, ItemStack crop) {
+		this(stages, 1, internalName, crop, false, 0);
 	}
 	
 	public static List<Crop> values() {
@@ -76,12 +74,8 @@ public class Crop {
 		return internalName;
 	}
 	
-	public int getCropId() {
-		return cropId;
-	}
-	
-	public int getSeedId() {
-		return seedId;
+	public ItemStack getCrop() {
+		return crop;
 	}
 	
 	public boolean isAlwaysTall() {

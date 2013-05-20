@@ -25,10 +25,6 @@ public class TileEntityCrop extends TileEntity {
 		return new ItemStack(CulinaryCraft.crop,1,Crop.values().indexOf(getCrop()));
 	}
 	
-	public ItemStack getCropStack() {
-		return new ItemStack(getCrop().getCropId(), 1, 0);
-	}
-	
 	public Crop getCrop() {
 		return crop;
 	}

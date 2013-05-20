@@ -183,10 +183,11 @@ public class CropBase extends BlockCrops implements ITileEntityProvider {
 		
 		if (!world.isRemote && te != null && te instanceof TileEntityCrop 
 				&& world.getBlockMetadata(x, y, z) >= (((TileEntityCrop) te).getCrop().getStages() - 1)) {
+			dropBlockAsItem_do(world, x, y, z, ((TileEntityCrop) te).getSeedStack());
+			dropBlockAsItem_do(world, x, y, z, ((TileEntityCrop) te).getCrop().getCrop().copy());
 			for (int i = 0; i < 3; i++) {
-				dropBlockAsItem_do(world, x, y, z, ((TileEntityCrop) te).getSeedStack());
 				if (world.rand.nextFloat() > 0.6f) {
-					dropBlockAsItem_do(world, x, y, z, ((TileEntityCrop) te).getSeedStack());
+					dropBlockAsItem_do(world, x, y, z, ((TileEntityCrop) te).getCrop().getCrop().copy());
 				}
 			}
 		}
