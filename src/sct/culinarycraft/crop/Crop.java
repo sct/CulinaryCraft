@@ -11,8 +11,9 @@ import sct.culinarycraft.CulinaryCraft;
 public class Crop {
 	public static Crop coffea = new Crop(5, "coffea", new ItemStack(CulinaryCraft.crop, 1, 0));
 	public static Crop blackPepper = new Crop(8, "blackpepper", new ItemStack(CulinaryCraft.crop, 1, 1));
-	public static Crop corn = new Crop(6, 3, "corn", new ItemStack(CulinaryCraft.corn), false, 0);
-	public static Crop grape = new Crop(4, 2, "grape", new ItemStack(CulinaryCraft.grape), true, 1);
+	public static Crop corn = new Crop(6, 3, "corn", new ItemStack(CulinaryCraft.corn), false, false, 0);
+	public static Crop grape = new Crop(4, 2, "grape", new ItemStack(CulinaryCraft.grape), true, true, 1);
+	public static Crop onion = new Crop(4, "onion", new ItemStack(CulinaryCraft.crop, 1, 4), 2);
 	
 	public static List<Crop> crops;
 	
@@ -21,17 +22,19 @@ public class Crop {
 	private ItemStack crop;
 	private int specialRenderer;
 	private boolean alwaysTall;
+	private boolean persistent;
 	private String internalName;
 	private Icon[][] icons;
 	private Icon seedIcon;
 	private Icon[] specialIcons;
 	
-	public Crop(int stages, int height, String internalName, ItemStack crop, boolean alwaysTall, int specialRenderer) {
+	public Crop(int stages, int height, String internalName, ItemStack crop, boolean alwaysTall, boolean keepPlant, int specialRenderer) {
 		this.stages = stages;
 		this.height = height;
 		this.internalName = internalName;
 		this.crop = crop;
 		this.specialRenderer = specialRenderer;
+		this.persistent = keepPlant;
 		this.alwaysTall = alwaysTall;
 		this.icons = new Icon[height][stages];
 		
@@ -44,8 +47,12 @@ public class Crop {
 		crops.add(this);
 	}
 	
+	public Crop(int stages, String internalName, ItemStack crop, int specialRenderer) {
+		this(stages, 1, internalName, crop, false, false, specialRenderer);
+	}
+	
 	public Crop(int stages, String internalName, ItemStack crop) {
-		this(stages, 1, internalName, crop, false, 0);
+		this(stages, 1, internalName, crop, false, false, 0);
 	}
 	
 	public static List<Crop> values() {
@@ -80,6 +87,10 @@ public class Crop {
 	
 	public boolean isAlwaysTall() {
 		return alwaysTall;
+	}
+	
+	public boolean isPersistent() {
+		return persistent;
 	}
 	
 	public int getSpecialRenderer() {

@@ -181,6 +181,69 @@ public class CropRenderer extends TileEntitySpecialRenderer implements
 
 			tessellator.draw();
 			GL11.glPopMatrix();
+		} else if (((TileEntityCrop) te).getCrop().getSpecialRenderer() == 2) {
+			GL11.glPushMatrix();
+			FMLClientHandler.instance().getClient().renderEngine
+					.bindTexture("/terrain.png");
+			Tessellator tessellator = Tessellator.instance;
+			tessellator.startDrawingQuads();
+			tessellator.setNormal(1.0F, 1.0F, 1.0F);
+
+			Icon icon = ((TileEntityCrop) te).getIcon(md);
+
+			tessellator.setBrightness(CulinaryCraft.crop
+					.getMixedBrightnessForBlock((IBlockAccess) te.worldObj,
+							(int) te.xCoord, (int) te.yCoord, (int) te.zCoord));
+
+			tessellator.setColorOpaque_F(1.0F, 1.0F, 1.0F);
+			
+			double d3 = (double)icon.getMinU();
+	        double d4 = (double)icon.getMinV();
+	        double d5 = (double)icon.getMaxU();
+	        double d6 = (double)icon.getMaxV();
+	        double d7 = x + 0.5D - 0.25D;
+	        double d8 = x + 0.5D + 0.25D;
+	        double d9 = z + 0.5D - 0.5D;
+	        double d10 = z + 0.5D + 0.5D;
+	        tessellator.addVertexWithUV(d7, y + 1.0D, d9, d3, d4);
+	        tessellator.addVertexWithUV(d7, y + 0.0D, d9, d3, d6);
+	        tessellator.addVertexWithUV(d7, y + 0.0D, d10, d5, d6);
+	        tessellator.addVertexWithUV(d7, y + 1.0D, d10, d5, d4);
+	        tessellator.addVertexWithUV(d7, y + 1.0D, d10, d3, d4);
+	        tessellator.addVertexWithUV(d7, y + 0.0D, d10, d3, d6);
+	        tessellator.addVertexWithUV(d7, y + 0.0D, d9, d5, d6);
+	        tessellator.addVertexWithUV(d7, y + 1.0D, d9, d5, d4);
+	        tessellator.addVertexWithUV(d8, y + 1.0D, d10, d3, d4);
+	        tessellator.addVertexWithUV(d8, y + 0.0D, d10, d3, d6);
+	        tessellator.addVertexWithUV(d8, y + 0.0D, d9, d5, d6);
+	        tessellator.addVertexWithUV(d8, y + 1.0D, d9, d5, d4);
+	        tessellator.addVertexWithUV(d8, y + 1.0D, d9, d3, d4);
+	        tessellator.addVertexWithUV(d8, y + 0.0D, d9, d3, d6);
+	        tessellator.addVertexWithUV(d8, y + 0.0D, d10, d5, d6);
+	        tessellator.addVertexWithUV(d8, y + 1.0D, d10, d5, d4);
+	        d7 = x + 0.5D - 0.5D;
+	        d8 = x + 0.5D + 0.5D;
+	        d9 = z + 0.5D - 0.25D;
+	        d10 = z + 0.5D + 0.25D;
+	        tessellator.addVertexWithUV(d7, y + 1.0D, d9, d3, d4);
+	        tessellator.addVertexWithUV(d7, y + 0.0D, d9, d3, d6);
+	        tessellator.addVertexWithUV(d8, y + 0.0D, d9, d5, d6);
+	        tessellator.addVertexWithUV(d8, y + 1.0D, d9, d5, d4);
+	        tessellator.addVertexWithUV(d8, y + 1.0D, d9, d3, d4);
+	        tessellator.addVertexWithUV(d8, y + 0.0D, d9, d3, d6);
+	        tessellator.addVertexWithUV(d7, y + 0.0D, d9, d5, d6);
+	        tessellator.addVertexWithUV(d7, y + 1.0D, d9, d5, d4);
+	        tessellator.addVertexWithUV(d8, y + 1.0D, d10, d3, d4);
+	        tessellator.addVertexWithUV(d8, y + 0.0D, d10, d3, d6);
+	        tessellator.addVertexWithUV(d7, y + 0.0D, d10, d5, d6);
+	        tessellator.addVertexWithUV(d7, y + 1.0D, d10, d5, d4);
+	        tessellator.addVertexWithUV(d7, y + 1.0D, d10, d3, d4);
+	        tessellator.addVertexWithUV(d7, y + 0.0D, d10, d3, d6);
+	        tessellator.addVertexWithUV(d8, y + 0.0D, d10, d5, d6);
+	        tessellator.addVertexWithUV(d8, y + 1.0D, d10, d5, d4);
+			
+			tessellator.draw();
+			GL11.glPopMatrix();
 		}
 	}
 

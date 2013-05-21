@@ -8,6 +8,7 @@ tile.culinary.crop.coffea.name = Coffea Seed
 tile.culinary.crop.blackpepper.name = Black Pepper Seed
 tile.culinary.crop.corn.name = Corn Seed
 tile.culinary.crop.grape.name = Grape Seed
+tile.culinary.crop.onion.name = Onion
 
 item.culinary.bacon.name = Bacon
 item.culinary.cookedegg.name = Cooked Egg

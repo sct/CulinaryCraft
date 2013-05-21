@@ -8,6 +8,7 @@ import net.minecraft.block.BlockCrops;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
@@ -229,6 +230,49 @@ public class CropBase extends BlockCrops implements ITileEntityProvider {
 				}
 			}
 		}
+	}
+	
+	@Override
+	public boolean onBlockActivated(World world, int x, int y,
+			int z, EntityPlayer player, int par6, float par7,
+			float par8, float par9) {
+		
+			TileEntity te = world.getBlockTileEntity(x, y, z);
+			if (te == null || player.isSneaking()) {
+				return false;
+			}
+			
+			if (te instanceof TileEntityCrop) {
+				if (((TileEntityCrop) te).getCrop().isPersistent()) {
+					TileEntity bottomTe = te;
+					int offset = 1;
+					while (world.getBlockId(x, y - offset, z) == blockID) {
+						bottomTe = world.getBlockTileEntity(x, y - offset, z);
+						offset++;
+					}
+					
+					if (world.getBlockMetadata(bottomTe.xCoord, bottomTe.yCoord, bottomTe.zCoord) >= ((TileEntityCrop) bottomTe).getCrop().getStages() - 1) {
+					
+						dropBlockAsItem_do(world, x, y, z, ((TileEntityCrop) bottomTe).getCrop().getCrop().copy());
+						for (int i = 0; i < 3; i++) {
+							if (world.rand.nextFloat() > 0.6f) {
+								dropBlockAsItem_do(world, x, y, z, ((TileEntityCrop) bottomTe).getCrop().getCrop().copy());
+							}
+						}
+						
+						world.setBlockMetadataWithNotify(bottomTe.xCoord, bottomTe.yCoord, bottomTe.zCoord, 0, 2);
+						
+						if (!((TileEntityCrop) bottomTe).getCrop().isAlwaysTall()) {
+							for (int i = 1; i < ((TileEntityCrop) bottomTe).getCrop().getHeight(); i++) {
+								world.setBlockToAir(bottomTe.xCoord, bottomTe.yCoord + i, bottomTe.zCoord);
+								world.removeBlockTileEntity(bottomTe.xCoord, bottomTe.yCoord + i, bottomTe.zCoord);
+							}
+						}
+					}
+				}
+			}
+			
+			return true;
 	}
 
 	@Override
